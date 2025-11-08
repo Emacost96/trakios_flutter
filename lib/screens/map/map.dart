@@ -3,6 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:trakios/assets/missions.dart';
+import 'package:trakios/screens/map/widgets/mission_marker.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -60,9 +62,9 @@ class _MapScreenState extends State<MapScreen> {
   /// Helper to show a simple message on screen
   void _showSnack(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   /// Toggle tracking mode and move the map to user's location if enabled
@@ -101,17 +103,23 @@ class _MapScreenState extends State<MapScreen> {
         return Scaffold(
           body: FlutterMap(
             mapController: _mapController,
-            options: MapOptions(
-              initialCenter: userLocation,
-              initialZoom: 15,
-            ),
+            options: MapOptions(initialCenter: userLocation, initialZoom: 15),
             children: [
               // Base map layer (Carto Voyager)
               TileLayer(
                 urlTemplate:
                     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-                userAgentPackageName:
-                    'com.trakios.trakios - info@trakios.com',
+                userAgentPackageName: 'com.trakios.trakios - info@trakios.com',
+              ),
+              MarkerLayer(
+                markers: [
+                  ...missions.map(
+                    (el) => Marker(
+                      point: LatLng(el['latitude'], el['longitude']),
+                      child: MissionMarker(onPressed: () {}, mission: el),
+                    ),
+                  ),
+                ],
               ),
 
               // Map attribution info
@@ -123,7 +131,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ],
               ),
-
               // User’s current location and compass
               CurrentLocationLayer(
                 style: _markerStyle,
