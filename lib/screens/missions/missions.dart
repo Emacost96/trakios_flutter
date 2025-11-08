@@ -6,6 +6,6 @@ class Missions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Missions')));
+    return Scaffold(body: Center(child: Text('Missisdssssadaons')));
   }
 }
