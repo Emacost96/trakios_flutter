@@ -6,8 +6,8 @@ final List<Map<String, dynamic>> missions = [
     'latitude': 45.564845,
     'longitude': 12.435304,
     'notes':
-        'Iconico trattore rosso posizionato all’ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
-    'status': 'active',
+        'Iconico trattore rosso posizionato all\'ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
+    'status': 'completed',
     'images': [
       {
         'caption': 'Trattore H-FARM',
