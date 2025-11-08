@@ -51,7 +51,7 @@ class Missions extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Activities'),
+          title: const Text('Activitissses'),
           bottom: const TabBar(
             tabs: [
               Tab(
@@ -81,27 +81,233 @@ class MissionsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.assignment, size: 64, color: Colors.blue),
-          SizedBox(height: 16),
-          Text(
-            'Missions',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: missions.length,
+      itemBuilder: (context, index) {
+        final mission = missions[index];
+
+        final String name = mission['name'] ?? '';
+        final String shortDescription =
+            mission['shortDescription'] ?? mission['notes'] ?? '';
+        final String status = mission['status'] ?? 'active';
+        final double token = (mission['token'] ?? 0.0).toDouble();
+
+        String? imageUrl;
+        if (mission['images'] is List && mission['images'].isNotEmpty) {
+          final first = mission['images'][0];
+          if (first is Map && first['url'] is String) {
+            imageUrl = first['url'] as String;
+          }
+        }
+
+        return Card(
+          margin: const EdgeInsets.only(bottom: 18),
+          elevation: 3,
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Complete individual tasks and challenges',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-            textAlign: TextAlign.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // IMAGE
+              ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(22)),
+                child: _MissionImage(url: imageUrl),
+              ),
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // TITLE + TOKEN
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.monetization_on_outlined,
+                              size: 16,
+                              color: Color(0xFF4169E1),
+                            ),
+                            const SizedBox(width: 3),
+                            Text(
+                              token.toStringAsFixed(3).replaceAll('.', ','),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    // SHORT DESCRIPTION
+                    Text(
+                      shortDescription,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // BUTTON FULL WIDTH
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: status == 'completed'
+                              ? const Color(0xFF00C853)
+                              : const Color(0xFFFF6F61),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
+                        ),
+                        onPressed: () {
+                          // TODO: naviga alla schermata dettagli
+                        },
+                        child: Text(
+                          status == 'completed'
+                              ? 'Completed'
+                              : 'Start Mission',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
+
+class _MissionImage extends StatelessWidget {
+  final String? url;
+
+  const _MissionImage({this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    // Se non ho URL valido -> uso un asset locale di default
+    if (url == null || url!.isEmpty) {
+      return Image.asset(
+        'assets/images/missions/chiesa.png',
+        width: double.infinity,
+        height: 160,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: double.infinity,
+            height: 160,
+            color: Colors.grey[300],
+            child: Icon(
+              Icons.image_not_supported,
+              size: 50,
+              color: Colors.grey[600],
+            ),
+          );
+        },
+      );
+    }
+
+    // Se inizia con 'assets/' -> è un asset locale
+    if (url!.startsWith('assets/')) {
+      return Image.asset(
+        url!,
+        width: double.infinity,
+        height: 160,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          // Se asset non trovato, usa placeholder
+          return Image.asset(
+            'assets/images/missions/chiesa.png',
+            width: double.infinity,
+            height: 160,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: double.infinity,
+                height: 160,
+                color: Colors.grey[300],
+                child: Icon(
+                  Icons.image_not_supported,
+                  size: 50,
+                  color: Colors.grey[600],
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+
+    // Se ho URL http/https -> carico in rete con fallback
+    return Image.network(
+      url!,
+      width: double.infinity,
+      height: 160,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        // Fallback su asset locale
+        return Image.asset(
+          'assets/images/missions/chiesa.png',
+          width: double.infinity,
+          height: 160,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: double.infinity,
+              height: 160,
+              color: Colors.grey[300],
+              child: Icon(
+                Icons.image_not_supported,
+                size: 50,
+                color: Colors.grey[600],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
 
 class CampaignsTab extends StatefulWidget {
   const CampaignsTab({super.key});
@@ -186,7 +392,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(14),
                               child: Image.asset(
-                                campaign['image']['src'],
+                                campaign['image']['url'] ?? '',
                                 width: 44,
                                 height: 44,
                                 fit: BoxFit.cover,
@@ -242,62 +448,63 @@ class _CampaignsTabState extends State<CampaignsTab> {
                         ),
 
                         // CONTENUTO ESPANSO
-                        AnimatedCrossFade(
-                          crossFadeState: isExpanded
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          duration: const Duration(milliseconds: 200),
-                          firstChild: const SizedBox(height: 4),
-                          secondChild: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10),
-                              // descrizione campagna
-                              Text(
-                                campaign['description'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black87,
-                                  height: 1.3,
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 10),
-                              // lista missioni
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  for (final missionId in campaign['missions'])
-                                    Builder(
-                                      builder: (context) {
-                                        final mission = getMissionById(missionId);
-                                        if (mission == null) {
-                                          return const SizedBox.shrink();
-                                        }
-                                        return _MissionRow(
-                                          mission: mission,
-                                          onTap: (mission) {
-                                            setState(() {
-                                              _selectedMission = mission;
-                                            });
-                                          },
-                                        );
-                                      },
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              // freccetta giù centrata come nel mock
-                              Align(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 18,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                            ],
+                        ClipRect(
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            child: isExpanded
+                                ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      // descrizione campagna
+                                      Text(
+                                        campaign['description'] ?? '',
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.black87,
+                                          height: 1.3,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // lista missioni
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          for (final missionId in campaign['missions'])
+                                            Builder(
+                                              builder: (context) {
+                                                final mission = getMissionById(missionId);
+                                                if (mission == null) {
+                                                  return const SizedBox.shrink();
+                                                }
+                                                return _MissionRow(
+                                                  mission: mission,
+                                                  onTap: (mission) {
+                                                    setState(() {
+                                                      _selectedMission = mission;
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      // freccetta giù centrata come nel mock
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Icon(
+                                          Icons.keyboard_arrow_up,
+                                          size: 18,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
                           ),
                         ),
 

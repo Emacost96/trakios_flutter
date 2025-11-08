@@ -66,7 +66,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/campaigns/
-    # - assets/images/missions/
+    - assets/images/missions/
 
   #  - assets/img/campaigns/hfarm_nature.png
 

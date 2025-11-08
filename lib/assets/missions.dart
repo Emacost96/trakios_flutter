@@ -1,82 +1,97 @@
 final List<Map<String, dynamic>> missions = [
   {
     'id': 1,
-    'name': 'Trattore H-FARM',
+    'name': 'H-Farm Tractor',
     'type': 'installazione/statua',
     'latitude': 45.564845,
     'longitude': 12.435304,
+    'shortDescription': 'Explore the iconic red tractor.',
     'notes':
-        'Iconico trattore rosso posizionato all\'ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
+        'Storico trattore rosso all’ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
     'status': 'completed',
+    'token': 0.001,
     'images': [
       {
-        'caption': 'Trattore H-FARM',
-        'url':
-            'https://images.pexels.com/photos/2882907/pexels-photo-2882907.jpeg',
+        'caption': 'H-Farm Tractor',
+        'url': 'assets/images/missions/trattore.png',
       },
     ],
-    'campaign': 1,
+    'campaign': 1, // H-FARM Icons
   },
   {
     'id': 2,
-    'name': 'Fontana del Campus Centrale',
-    'type': 'fontana',
-    'latitude': 45.56532,
-    'longitude': 12.43589,
+    'name': 'Colle Umberto\'s Church',
+    'type': 'chiesa/storico',
+    'latitude': 45.9579,
+    'longitude': 12.3481,
+    'shortDescription': 'Discover the hilltop church and its views.',
     'notes':
-        'Fontana contemporanea in acciaio e pietra davanti all’H-Café, punto di ritrovo per studenti, visitatori e startup.',
+        'Antica chiesa immersa tra le colline trevigiane, punto panoramico ideale per esplorare storia e paesaggio locale.',
     'status': 'active',
-    'campaign': 1,
+    'token': 0.010,
+    'images': [
+      {
+        'caption': 'Colle Umberto\'s Church',
+        'url': 'assets/images/missions/chiesa.png',
+      },
+    ],
+    'campaign': 2, // Treviso Secrets
   },
   {
     'id': 3,
-    'name': 'Scultura “Seed of Innovation”',
-    'type': 'statua/installazione',
-    'latitude': 45.56598,
-    'longitude': 12.43631,
+    'name': 'Fontana delle Tette',
+    'type': 'fontana/storico',
+    'latitude': 45.6669,
+    'longitude': 12.2455,
+    'shortDescription': 'Explore the ancient fountain of Treviso.',
     'notes':
-        'Installazione astratta a forma di seme che rappresenta la crescita delle idee e dei progetti nati nel campus H-FARM.',
-    'status': 'active',
-    'campaign': 1,
+        'Riproduzione della celebre fontana rinascimentale, simbolo della città di Treviso e delle sue tradizioni popolari.',
+    'status': 'completed',
+    'token': 0.010,
+    'images': [
+      {
+        'caption': 'Fontana delle Tette',
+        'url': 'assets/images/missions/fontana.png',
+      },
+    ],
+    'campaign': 2, // Treviso Secrets
   },
   {
     'id': 4,
-    'name': 'Chiesetta di Ca’ Tron',
-    'type': 'chiesa/storico',
-    'latitude': 45.5639,
-    'longitude': 12.4378,
+    'name': 'Clock Tower of Mestre',
+    'type': 'torre/campanile',
+    'latitude': 45.4894,
+    'longitude': 12.2421,
+    'shortDescription': 'Reach the heart of Mestre’s old town.',
     'notes':
-        'Antica chiesetta rurale a pochi passi dal campus, testimonianza del passato agricolo della tenuta di Ca’ Tron.',
-    'status': 'completed',
+        'Storico campanile che domina Piazza Ferretto, punto di riferimento urbano e tappa chiave per scoprire Mestre.',
+    'status': 'active',
+    'token': 0.001,
     'images': [
       {
-        'caption': 'Chiesetta di Ca’ Tron',
-        'url':
-            'https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg',
+        'caption': 'Clock Tower of Mestre',
+        'url': 'assets/images/missions/campanile-mestre.png',
       },
     ],
-    'campaign': 2,
+    'campaign': 3, // Mestre Highlights
   },
   {
     'id': 5,
-    'name': 'Bosco Didattico',
-    'type': 'natura/percorso',
-    'latitude': 45.56641,
-    'longitude': 12.43452,
+    'name': 'Farmhouse in Treviso',
+    'type': 'agriturismo/paesaggio',
+    'latitude': 45.6830,
+    'longitude': 12.2520,
+    'shortDescription': 'Visit a traditional Venetian farmhouse.',
     'notes':
-        'Percorso nel verde con pannelli informativi su flora e fauna locale, ideale per scuole e visite guidate.',
+        'Cascina tipica della campagna trevigiana, perfetta per raccontare il legame tra territorio, enogastronomia e ospitalità locale.',
     'status': 'active',
-    'campaign': 2,
-  },
-  {
-    'id': 6,
-    'name': 'Belvedere sul Sile',
-    'type': 'natura/panorama',
-    'latitude': 45.5672,
-    'longitude': 12.43388,
-    'notes':
-        'Punto panoramico sul fiume Sile con vista sul paesaggio rurale e sulle architetture contemporanee di H-FARM.',
-    'status': 'active',
-    'campaign': 2,
+    'token': 0.001,
+    'images': [
+      {
+        'caption': 'Farmhouse in Treviso',
+        'url': 'assets/images/missions/agriturismo-treviso.png',
+      },
+    ],
+    'campaign': 2, // Treviso Secrets
   },
 ];

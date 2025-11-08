@@ -1,28 +1,38 @@
 final List<Map<String, dynamic>> campaigns = [
-{
-'id': 1,
-'type': 'BusinesSs',
-'name': 'H-FARM Campus Icons',
-'missions': [1, 2, 3],
-'image': {
-'src': 'assets/images/campaigns/hfarm.png',
-'alt':
-'Vista del campus H-FARM con installazioni artistiche e aree outdoor moderne',
-},
-'description':
-'Un percorso dedicato ai simboli più iconici del campus H-FARM: dal trattore rosso storico, alla fontana del Campus Centrale, fino alla scultura “Seed of Innovation” che rappresenta la crescita delle idee.',
-},
-{
-'id': 2,
-'type': 'Government',
-'name': 'Ca’ Tron Heritage & Nature Trail',
-'missions': [4, 5, 6],
-'image': {
-'src': 'assets/images/campaigns/forte_marghera.jpeg',
-'alt':
-'Sentiero immerso nel verde tra il fiume Sile, il bosco didattico e la chiesetta rurale di Ca\' Tron',
-},
-'description':
-'Un itinerario che valorizza il patrimonio storico e naturale attorno a H-FARM: la chiesetta di Ca\' Tron, il bosco didattico con pannelli educativi e il belvedere sul Sile con vista sulla campagna veneta.',
-},
+  {
+    'id': 1,
+    'type': 'Business',
+    'name': 'H-FARM Icons',
+    'missions': [1],
+    'image': {
+      'url': 'assets/images/campaigns/hfarm.png',
+      'captions': 'Logo H-FARM e icone del campus',
+    },
+    'description':
+        'Scopri i simboli più rappresentativi del campus H-FARM, a partire dal leggendario trattore rosso.',
+  },
+  {
+    'id': 2,
+    'type': 'City',
+    'name': 'Treviso Secrets',
+    'missions': [2, 3, 5],
+    'image': {
+      'url': 'assets/images/campaigns/treviso.png',
+      'captions': 'Stemma e skyline della città di Treviso',
+    },
+    'description':
+        'Un percorso tra centro storico e campagna: chiese panoramiche, fontane simboliche e antiche case rurali.',
+  },
+  {
+    'id': 3,
+    'type': 'City',
+    'name': 'Mestre Highlights',
+    'missions': [4],
+    'image': {
+      'url': 'assets/images/campaigns/mestre.png',
+      'captions': 'Stemma della città di Mestre',
+    },
+    'description':
+        'Esplora l’identità urbana di Mestre partendo dalla sua torre dell’orologio in Piazza Ferretto.',
+  },
 ];
