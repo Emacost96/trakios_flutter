@@ -56,8 +56,9 @@ class MissionMarker extends StatelessWidget {
         ],
       ),
 
+      SizedBox(height: 24),
       // TODO: develop on pressed
-      StyledButton(onPressed: onPressed, text: 'Start Mission')
+      StyledButton(onPressed: onPressed, text: 'Start Mission', textColor: Colors.black26,)
 
     ],
   );
