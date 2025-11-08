@@ -8,7 +8,7 @@ final List<Map<String, dynamic>> missions = [
     'shortDescription': 'Explore the iconic red tractor.',
     'notes':
         'Storico trattore rosso all’ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
-    'status': 'completed',
+    'status': 'active',
     'token': 0.001,
     'images': [
       {
@@ -65,7 +65,7 @@ final List<Map<String, dynamic>> missions = [
     'shortDescription': 'Reach the heart of Mestre’s old town.',
     'notes':
         'Storico campanile che domina Piazza Ferretto, punto di riferimento urbano e tappa chiave per scoprire Mestre.',
-    'status': 'active',
+    'status': 'completed',
     'token': 0.001,
     'images': [
       {

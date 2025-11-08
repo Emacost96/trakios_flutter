@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:trakios/assets/campaigns.dart';
 import 'package:trakios/assets/missions.dart';
+import 'package:trakios/theme/text_styles.dart';
 
 // Helper functions to connect campaigns with missions
 Map<String, dynamic>? getMissionById(int missionId) {
@@ -51,15 +52,14 @@ class Missions extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Activitissses'),
+          toolbarHeight: 0,
           bottom: const TabBar(
+            dividerColor: Colors.transparent,
             tabs: [
               Tab(
-                icon: Icon(Icons.assignment),
                 text: 'Missions',
               ),
               Tab(
-                icon: Icon(Icons.campaign),
                 text: 'Campaigns',
               ),
             ],
@@ -104,7 +104,7 @@ class MissionsTab extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.only(bottom: 18),
           elevation: 3,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
           ),
@@ -132,26 +132,21 @@ class MissionsTab extends StatelessWidget {
                             name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black87,
-                            ),
+                            style: AppTextStyles.subtitle(context),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.monetization_on_outlined,
                               size: 16,
-                              color: Color(0xFF4169E1),
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             const SizedBox(width: 3),
                             Text(
                               token.toStringAsFixed(3).replaceAll('.', ','),
-                              style: const TextStyle(
-                                fontSize: 13,
+                              style: AppTextStyles.caption(context).copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -167,10 +162,7 @@ class MissionsTab extends StatelessWidget {
                       shortDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[700],
-                      ),
+                      style: AppTextStyles.bodySmall(context),
                     ),
 
                     const SizedBox(height: 10),
@@ -182,8 +174,8 @@ class MissionsTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: status == 'completed'
-                              ? const Color(0xFF00C853)
-                              : const Color(0xFFFF6F61),
+                              ? Colors.green
+                              : Theme.of(context).colorScheme.secondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
@@ -198,11 +190,7 @@ class MissionsTab extends StatelessWidget {
                           status == 'completed'
                               ? 'Completed'
                               : 'Start Mission',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
+                          style: AppTextStyles.button(context),
                         ),
                       ),
                     ),
@@ -235,11 +223,11 @@ class _MissionImage extends StatelessWidget {
           return Container(
             width: double.infinity,
             height: 160,
-            color: Colors.grey[300],
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
             child: Icon(
               Icons.image_not_supported,
               size: 50,
-              color: Colors.grey[600],
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           );
         },
@@ -294,11 +282,11 @@ class _MissionImage extends StatelessWidget {
             return Container(
               width: double.infinity,
               height: 160,
-              color: Colors.grey[300],
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
               child: Icon(
                 Icons.image_not_supported,
                 size: 50,
-                color: Colors.grey[600],
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             );
           },
@@ -365,26 +353,20 @@ class _CampaignsTabState extends State<CampaignsTab> {
                       }
                     });
                   },
-                  child: Container(
-                    // pill come nel mock bianco
-                    decoration: BoxDecoration(
-                      color: Colors.white,
+                  child: Card(
+                    elevation: 3,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 14,
-                          offset: const Offset(0, 6),
-                          color: Colors.black.withValues(alpha: 0.16),
-                        ),
-                      ],
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                         // RIGA PRINCIPALE: icon - testi - progress
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -402,13 +384,13 @@ class _CampaignsTabState extends State<CampaignsTab> {
                                     height: 44,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(14),
                                     ),
                                     child: Icon(
                                       Icons.image_not_supported,
                                       size: 20,
-                                      color: Colors.grey[600],
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                                     ),
                                   );
                                 },
@@ -424,19 +406,12 @@ class _CampaignsTabState extends State<CampaignsTab> {
                                     campaign['name'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black87,
-                                    ),
+                                    style: AppTextStyles.subtitle(context),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
                                     _getCampaignSubtitle(campaign['id'] as int),
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
+                                    style: AppTextStyles.caption(context),
                                   ),
                                 ],
                               ),
@@ -522,6 +497,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                     ),
                   ),
                 ),
+              ),
               );
             },
           ),
@@ -550,14 +526,16 @@ class _CircularProgressArc extends StatelessWidget {
         children: [
           CustomPaint(
             size: const Size(40, 40),
-            painter: _ArcPainter(progress),
+            painter: _ArcPainter(
+              progress, 
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3),
+              Colors.green
+            ),
           ),
           Text(
             '$percentage%',
-            style: const TextStyle(
-              fontSize: 9,
+            style: AppTextStyles.caption(context).copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
             ),
           ),
         ],
@@ -568,8 +546,10 @@ class _CircularProgressArc extends StatelessWidget {
 
 class _ArcPainter extends CustomPainter {
   final double progress;
+  final Color backgroundColor;
+  final Color progressColor;
 
-  _ArcPainter(this.progress);
+  _ArcPainter(this.progress, this.backgroundColor, this.progressColor);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -582,13 +562,13 @@ class _ArcPainter extends CustomPainter {
     );
 
     final bgPaint = Paint()
-      ..color = Colors.grey.shade300
+      ..color = backgroundColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
     final fgPaint = Paint()
-      ..color = const Color(0xFF00D26A)
+      ..color = progressColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -601,7 +581,9 @@ class _ArcPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _ArcPainter oldDelegate) =>
-      oldDelegate.progress != progress;
+      oldDelegate.progress != progress || 
+      oldDelegate.backgroundColor != backgroundColor ||
+      oldDelegate.progressColor != progressColor;
 }
 
 /// Righe mission come prima, ma su sfondo chiaro
@@ -632,10 +614,8 @@ class _MissionRow extends StatelessWidget {
                   Flexible(
                     child: Text(
                       mission['name'],
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: AppTextStyles.bodySmall(context).copyWith(
                         fontWeight: FontWeight.w500,
-                        color: Colors.black87,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -644,7 +624,7 @@ class _MissionRow extends StatelessWidget {
                   Icon(
                     Icons.info_outline,
                     size: 16,
-                    color: Colors.grey[500],
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ],
               ),
@@ -659,8 +639,8 @@ class _MissionRow extends StatelessWidget {
                   : Icons.check_box_outline_blank_rounded,
               size: 18,
               color: mission['status'] == 'completed'
-                  ? const Color(0xFF00D26A)
-                  : Colors.grey[400],
+                  ? Colors.green
+                  : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           ],
         ),
@@ -683,34 +663,25 @@ class _MissionDetailCard extends StatelessWidget {
           const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 0),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-            color: Colors.black.withValues(alpha: 0.18),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.circle,
                 size: 6,
-                color: Colors.black87,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   mission['name'] ?? 'Selected mission',
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: AppTextStyles.bodySmall(context).copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
                   ),
                 ),
               ),
@@ -718,8 +689,8 @@ class _MissionDetailCard extends StatelessWidget {
                 mission['status'] == 'completed' ? Icons.check : Icons.circle_outlined,
                 size: 18,
                 color: mission['status'] == 'completed' 
-                    ? const Color(0xFF00D26A) 
-                    : Colors.grey[400],
+                    ? Colors.green 
+                    : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
               ),
             ],
           ),
@@ -728,9 +699,7 @@ class _MissionDetailCard extends StatelessWidget {
             mission['notes'] ??
                 mission['description'] ??
                 'Add a nice storytelling description for this mission.',
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.black87,
+            style: AppTextStyles.bodySmall(context).copyWith(
               height: 1.4,
             ),
           ),
@@ -738,9 +707,7 @@ class _MissionDetailCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Type: ${mission['type']}',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
+              style: AppTextStyles.caption(context).copyWith(
                 fontStyle: FontStyle.italic,
               ),
             ),

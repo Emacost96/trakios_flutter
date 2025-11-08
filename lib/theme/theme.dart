@@ -12,6 +12,7 @@ class AppColors {
   static const Color darkNavBackground = Color(0xFF201e2b);
   static const Color darkIconColor = Color(0xFF9591a5);
   static const Color darkUiBackground = Color(0xFF2f2b3d);
+  static const Color darkCardBackground = Color(0xFF3d3a4a);
 
   // Colori Chiaro
   static const Color lightText = Color(0xFF625f72);
@@ -20,6 +21,7 @@ class AppColors {
   static const Color lightNavBackground = Color(0xFFe8e7ef);
   static const Color lightIconColor = Color(0xFF686477);
   static const Color lightUiBackground = Color(0xFFd6d5e1);
+  static const Color lightCardBackground = Color(0xFFE9E9E9);
 }
 
 class AppThemes {
@@ -35,6 +37,7 @@ class AppThemes {
       surface: AppColors.lightUiBackground,
       onSurface: AppColors.lightText,
       error: AppColors.warning,
+      surfaceContainerHighest: AppColors.lightCardBackground,
     ),
 
     appBarTheme: AppBarTheme(
@@ -64,6 +67,7 @@ class AppThemes {
       surface: AppColors.darkUiBackground,
       onSurface: AppColors.darkText,
       error: AppColors.warning,
+      surfaceContainerHighest: AppColors.darkCardBackground,
     ),
 
     appBarTheme: AppBarTheme(
