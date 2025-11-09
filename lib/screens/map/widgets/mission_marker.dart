@@ -11,7 +11,7 @@ class MissionMarker extends StatelessWidget {
   });
 
   final AsyncCallback onPressed;
-  final Map<dynamic, dynamic> mission;
+  final Map<String, dynamic> mission;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MissionMarker extends StatelessWidget {
         size: 50,
         color: Theme.of(context).primaryColor,
       ),
-      onTap: () => Modal.showModal(context, MissionModal(mission: mission, onPressed: onPressed, context: context)),
+      onTap: () => Modal.showModal(context, MissionModal(mission: mission, context: context)),
     );
   }
 }

@@ -17,16 +17,10 @@ final router = GoRouter(
       routes: [
         // Rotta per la Mappa
         GoRoute(path: '/map', builder: (context, state) => MapScreen()),
-        // Rotta per le Missions con subroute per i dettagli
+        // Rotta per le Missions
         GoRoute(
           path: '/missions',
           builder: (context, state) => Missions(),
-          routes: [
-            GoRoute(
-              path: '/:missionId',
-              builder: (context, state) => MissionDetail(id: state.pathParameters['missionId']!),
-            ),
-          ],
         ),
         // Rotta per il Profilo
         GoRoute(
@@ -34,6 +28,11 @@ final router = GoRouter(
           builder: (context, state) => Profile(),
         ),
       ],
+    ),
+    // Mission Detail come route separata (full-screen)
+    GoRoute(
+      path: '/missions/:missionId',
+      builder: (context, state) => MissionDetail(id: state.pathParameters['missionId']!),
     ),
   ],
 );

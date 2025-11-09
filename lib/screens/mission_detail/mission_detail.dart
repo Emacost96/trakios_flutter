@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/styled_button/styled_button.dart';
+import 'package:trakios/utilities/mission_utils.dart';
 
 class MissionDetail extends StatefulWidget {
   const MissionDetail({super.key, required this.id});
@@ -316,11 +317,8 @@ class _MissionDetailState extends State<MissionDetail> {
                     ),
                   )
                 : StyledButton(
-                    onPressed: () {
-                      // TODO: Implement start mission logic
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Mission started!')),
-                      );
+                    onPressed: () async {
+                      await MissionUtils.attemptMissionCompletion(context, mission!);
                     },
                     text: 'Start Mission',
                     color: Theme.of(context).colorScheme.primary,

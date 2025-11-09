@@ -1,19 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/styled_button/styled_button.dart';
+import 'package:trakios/utilities/mission_utils.dart';
 
 class MissionModal extends StatelessWidget {
   const MissionModal({
     super.key,
     required this.mission,
-    required this.onPressed,
     required this.context,
   });
 
-  final Map mission;
-  final AsyncCallback onPressed;
+  final Map<String, dynamic> mission;
   final BuildContext context;
 
   @override
@@ -54,7 +52,7 @@ class MissionModal extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                context.go('/missions/${mission['id']}');
+                context.push('/missions/${mission['id']}');
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -71,7 +69,12 @@ class MissionModal extends StatelessWidget {
 
       SizedBox(height: 24),
       StyledButton(
-        onPressed: onPressed,
+        onPressed: () async {
+          await MissionUtils.attemptMissionCompletion(context, mission);
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
         text: 'Start Mission',
         textColor: Theme.of(context).colorScheme.onPrimary,
         color: Theme.of(context).colorScheme.primary,

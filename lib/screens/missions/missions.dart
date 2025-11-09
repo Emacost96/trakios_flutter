@@ -5,6 +5,7 @@ import 'package:trakios/assets/missions.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/modal/modal.dart';
 import 'package:trakios/widgets/modal/modals/mission_modal.dart';
+import 'package:trakios/utilities/mission_utils.dart';
 
 // Helper functions to connect campaigns with missions
 Map<String, dynamic>? getMissionById(int missionId) {
@@ -185,9 +186,11 @@ class MissionsTab extends StatelessWidget {
                             vertical: 10,
                           ),
                         ),
-                        onPressed: () {
-                          // TODO: naviga alla schermata dettagli
-                        },
+                        onPressed: status == 'completed' 
+                            ? null 
+                            : () async {
+                                await MissionUtils.attemptMissionCompletion(context, mission);
+                              },
                         child: Text(
                           status == 'completed'
                               ? 'Completed'
@@ -617,10 +620,6 @@ class _MissionRow extends StatelessWidget {
       MissionModal(
         mission: mission,
         context: context,
-        onPressed: () async {
-          // TODO: Implement mission start logic
-          Navigator.of(context).pop();
-        },
       ),
     );
   }
