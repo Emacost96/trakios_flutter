@@ -174,7 +174,7 @@ class MissionsTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: status == 'completed'
-                              ? Colors.green
+                              ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.secondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -252,11 +252,11 @@ class _MissionImage extends StatelessWidget {
               return Container(
                 width: double.infinity,
                 height: 160,
-                color: Colors.grey[300],
+                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.3),
                 child: Icon(
                   Icons.image_not_supported,
                   size: 50,
-                  color: Colors.grey[600],
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               );
             },
@@ -304,9 +304,29 @@ class CampaignsTab extends StatefulWidget {
   State<CampaignsTab> createState() => _CampaignsTabState();
 }
 
-class _CampaignsTabState extends State<CampaignsTab> {
+class _CampaignsTabState extends State<CampaignsTab>
+    with TickerProviderStateMixin {
   int? _expandedCampaignId;
   Map<String, dynamic>? _selectedMission;
+  final Map<int, AnimationController> _animationControllers = {};
+
+  @override
+  void dispose() {
+    for (final controller in _animationControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  AnimationController _getAnimationController(int campaignId) {
+    if (!_animationControllers.containsKey(campaignId)) {
+      _animationControllers[campaignId] = AnimationController(
+        duration: const Duration(milliseconds: 250),
+        vsync: this,
+      );
+    }
+    return _animationControllers[campaignId]!;
+  }
 
   String _getCampaignSubtitle(int campaignId) {
     final campaignMissions = getMissionsForCampaign(campaignId);
@@ -344,12 +364,16 @@ class _CampaignsTabState extends State<CampaignsTab> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
+                      final animationController = _getAnimationController(campaign['id'] as int);
+                      
                       if (isExpanded) {
                         _expandedCampaignId = null;
                         _selectedMission = null;
+                        animationController.reverse();
                       } else {
                         _expandedCampaignId = campaign['id'] as int;
                         _selectedMission = null;
+                        animationController.forward();
                       }
                     });
                   },
@@ -423,63 +447,59 @@ class _CampaignsTabState extends State<CampaignsTab> {
                         ),
 
                         // CONTENUTO ESPANSO
-                        ClipRect(
-                          child: AnimatedSize(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                            child: isExpanded
-                                ? Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      // descrizione campagna
-                                      Text(
-                                        campaign['description'] ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.black87,
-                                          height: 1.3,
-                                        ),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
+                        SizeTransition(
+                          sizeFactor: _getAnimationController(campaign['id'] as int),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                // descrizione campagna
+                                Text(
+                                  campaign['description'] ?? '',
+                                  style: AppTextStyles.bodySmall(context).copyWith(
+                                    height: 1.3,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 10),
+                                // lista missioni
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    for (final missionId in campaign['missions'])
+                                      Builder(
+                                        builder: (context) {
+                                          final mission = getMissionById(missionId);
+                                          if (mission == null) {
+                                            return const SizedBox.shrink();
+                                          }
+                                          return _MissionRow(
+                                            mission: mission,
+                                            onTap: (mission) {
+                                              setState(() {
+                                                _selectedMission = mission;
+                                              });
+                                            },
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(height: 10),
-                                      // lista missioni
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          for (final missionId in campaign['missions'])
-                                            Builder(
-                                              builder: (context) {
-                                                final mission = getMissionById(missionId);
-                                                if (mission == null) {
-                                                  return const SizedBox.shrink();
-                                                }
-                                                return _MissionRow(
-                                                  mission: mission,
-                                                  onTap: (mission) {
-                                                    setState(() {
-                                                      _selectedMission = mission;
-                                                    });
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4),
-                                      // freccetta giù centrata come nel mock
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          Icons.keyboard_arrow_up,
-                                          size: 18,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : const SizedBox.shrink(),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                // freccetta giù centrata come nel mock
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.keyboard_arrow_up,
+                                    size: 18,
+                                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
 
@@ -490,7 +510,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                             child: Icon(
                               Icons.keyboard_arrow_down,
                               size: 18,
-                              color: Colors.grey[500],
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                             ),
                           ),
                       ],
@@ -529,7 +549,7 @@ class _CircularProgressArc extends StatelessWidget {
             painter: _ArcPainter(
               progress, 
               Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3),
-              Colors.green
+              Theme.of(context).colorScheme.primary
             ),
           ),
           Text(
@@ -639,7 +659,7 @@ class _MissionRow extends StatelessWidget {
                   : Icons.check_box_outline_blank_rounded,
               size: 18,
               color: mission['status'] == 'completed'
-                  ? Colors.green
+                  ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           ],
@@ -689,7 +709,7 @@ class _MissionDetailCard extends StatelessWidget {
                 mission['status'] == 'completed' ? Icons.check : Icons.circle_outlined,
                 size: 18,
                 color: mission['status'] == 'completed' 
-                    ? Colors.green 
+                    ? Theme.of(context).colorScheme.primary 
                     : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
               ),
             ],
