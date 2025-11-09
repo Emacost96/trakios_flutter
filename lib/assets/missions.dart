@@ -94,4 +94,23 @@ final List<Map<String, dynamic>> missions = [
     ],
     'campaign': 2, // Treviso Secrets
   },
+  {
+    'id': 5,
+    'name': 'Casa di Ema',
+    'type': 'agriturismo/paesaggio',
+    'latitude': 45.50384310084704,
+    'longitude': 12.256369744947257,
+    'shortDescription': 'Visit a the most beautiful guy in Italy.',
+    'notes':
+        'Cascina tipica della campagna trevigiana, perfetta per raccontare il legame tra territorio, enogastronomia e ospitalità locale.',
+    'status': 'active',
+    'token': 0.001,
+    'images': [
+      {
+        'caption': 'Farmhouse in Treviso',
+        'url': 'assets/images/missions/agriturismo-treviso.png',
+      },
+    ],
+    'campaign': 2, // Treviso Secrets
+  },
 ];

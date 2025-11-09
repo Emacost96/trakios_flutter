@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/screens/map/widgets/mission_marker.dart';
+import 'package:trakios/utilities/geo_utils.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -81,6 +82,21 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    onPressed(LatLng missionCoordinate) async {
+      final position = await GeoUtils.getUserPosition();
+      if (position != null) {
+        bool isLesThan10Meters = GeoUtils.isCloserTahn10Meters(
+          position,
+          missionCoordinate,
+        );
+
+        if (isLesThan10Meters)
+          _showSnack('Mission Accomplished');
+        else
+          _showSnack('Try Again');
+      }
+    }
+
     return FutureBuilder<LatLng?>(
       future: _getUserLocation(),
       builder: (context, snapshot) {
@@ -111,16 +127,6 @@ class _MapScreenState extends State<MapScreen> {
                     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
                 userAgentPackageName: 'com.trakios.trakios - info@trakios.com',
               ),
-              MarkerLayer(
-                markers: [
-                  ...missions.map(
-                    (el) => Marker(
-                      point: LatLng(el['latitude'], el['longitude']),
-                      child: MissionMarker(onPressed: () {}, mission: el),
-                    ),
-                  ),
-                ],
-              ),
 
               // Map attribution info
               RichAttributionWidget(
@@ -141,6 +147,23 @@ class _MapScreenState extends State<MapScreen> {
                     ? AlignOnUpdate.always
                     : AlignOnUpdate.never,
                 moveAnimationDuration: const Duration(milliseconds: 300),
+              ),
+              MarkerLayer(
+                markers: [
+                  ...missions.map((el) {
+                    final missionCoordinate = LatLng(
+                      el['latitude'],
+                      el['longitude'],
+                    );
+                    return Marker(
+                      point: missionCoordinate,
+                      child: MissionMarker(
+                        onPressed: () => onPressed(missionCoordinate),
+                        mission: el,
+                      ),
+                    );
+                  }),
+                ],
               ),
             ],
           ),

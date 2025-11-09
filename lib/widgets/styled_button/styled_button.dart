@@ -8,7 +8,7 @@ class StyledButton extends StatelessWidget {
     required this.onPressed,
     required this.text,
     this.color = AppColors.primary,
-    this.textColor = Colors.black,
+    this.textColor = Colors.white,
   });
 
   final Function() onPressed;

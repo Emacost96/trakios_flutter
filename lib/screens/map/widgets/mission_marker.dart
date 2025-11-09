@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/modal/modal.dart';
 import 'package:trakios/widgets/styled_button/styled_button.dart';
@@ -11,7 +11,7 @@ class MissionMarker extends StatelessWidget {
     required this.mission,
   });
 
-  final Function() onPressed;
+  final AsyncCallback onPressed;
   final Map<dynamic, dynamic> mission;
 
   @override
@@ -58,8 +58,12 @@ class MissionMarker extends StatelessWidget {
 
       SizedBox(height: 24),
       // TODO: develop on pressed
-      StyledButton(onPressed: onPressed, text: 'Start Mission', textColor: Colors.black26,)
-
+      StyledButton(
+        onPressed: onPressed,
+        text: 'Start Mission',
+        textColor: Theme.of(context).colorScheme.onPrimary,
+        color: Theme.of(context).colorScheme.primary,
+      ),
     ],
   );
 }
