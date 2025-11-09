@@ -3,7 +3,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:trakios/providers/profile/gallery_provider.dart';
 import 'package:trakios/utilities/geo_utils.dart';
 import 'package:trakios/utilities/image_utils.dart';
 
@@ -35,6 +37,7 @@ class MissionUtils {
   /// Attempt to start/complete a mission with proximity check
   static Future<File?> attemptMissionCompletion(
     BuildContext context,
+    WidgetRef ref,
     Map<String, dynamic> mission,
   ) async {
     final isCloseEnough = await checkMissionProximity(mission);
@@ -89,7 +92,15 @@ class MissionUtils {
             );
           },
         );
-        _showMessage(context, 'Mission Accomplished your earnd ${mission['token']} Trakios Coins ❤️');
+        _showMessage(
+          context,
+          'Mission Accomplished your earnd ${mission['token']} Trakios Coins ❤️',
+        );
+
+        ref.read(galleryProvider.notifier).update((state) {
+          final newList = [image.path, ...state]; // aggiunge in cima
+          return newList;
+        });
 
         return image;
       } else {

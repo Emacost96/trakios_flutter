@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/assets/user.dart';
 import 'package:trakios/screens/map/widgets/mission_marker.dart';
-import 'package:trakios/theme/theme.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/utilities/mission_utils.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen> {
   late final MapController _mapController = MapController();
   bool _tracking = false;
 
@@ -86,7 +86,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     onPressed(Map<String, dynamic> mission) async {
-      await MissionUtils.attemptMissionCompletion(context, mission);
+      await MissionUtils.attemptMissionCompletion(context, ref, mission);
     }
 
     return FutureBuilder<LatLng?>(
@@ -128,9 +128,9 @@ class _MapScreenState extends State<MapScreen> {
                   children: [
                     Text(
                       'TRAKIOS',
-                      style: AppTextStyles.headline(context).copyWith(
-                        letterSpacing: 1.2,
-                      ),
+                      style: AppTextStyles.headline(
+                        context,
+                      ).copyWith(letterSpacing: 1.2),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -169,53 +169,57 @@ class _MapScreenState extends State<MapScreen> {
               Expanded(
                 child: FlutterMap(
                   mapController: _mapController,
-                  options: MapOptions(initialCenter: userLocation, initialZoom: 15),
-                  children: [
-              // Base map layer (Carto Voyager)
-              TileLayer(
-                urlTemplate:
-                    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-                userAgentPackageName: 'com.trakios.trakios - info@trakios.com',
-              ),
-
-              // Map attribution info
-              RichAttributionWidget(
-                attributions: [
-                  TextSourceAttribution(
-                    '© OpenStreetMap contributors',
-                    onTap: () {},
+                  options: MapOptions(
+                    initialCenter: userLocation,
+                    initialZoom: 15,
                   ),
-                ],
-              ),
-              // User’s current location and compass
-              CurrentLocationLayer(
-                style: _markerStyle,
-                alignPositionOnUpdate: _tracking
-                    ? AlignOnUpdate.always
-                    : AlignOnUpdate.never,
-                alignDirectionOnUpdate: _tracking
-                    ? AlignOnUpdate.always
-                    : AlignOnUpdate.never,
-                moveAnimationDuration: const Duration(milliseconds: 300),
-              ),
-              MarkerLayer(
-                markers: [
-                  ...missions.map((mission) {
-                    final missionCoordinate = LatLng(
-                      mission['latitude'],
-                      mission['longitude'],
-                    );
-                    return Marker(
-                      point: missionCoordinate,
-                      child: MissionMarker(
-                        onPressed: () => onPressed(mission),
-                        mission: mission,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ],
+                  children: [
+                    // Base map layer (Carto Voyager)
+                    TileLayer(
+                      urlTemplate:
+                          "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+                      userAgentPackageName:
+                          'com.trakios.trakios - info@trakios.com',
+                    ),
+
+                    // Map attribution info
+                    RichAttributionWidget(
+                      attributions: [
+                        TextSourceAttribution(
+                          '© OpenStreetMap contributors',
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                    // User’s current location and compass
+                    CurrentLocationLayer(
+                      style: _markerStyle,
+                      alignPositionOnUpdate: _tracking
+                          ? AlignOnUpdate.always
+                          : AlignOnUpdate.never,
+                      alignDirectionOnUpdate: _tracking
+                          ? AlignOnUpdate.always
+                          : AlignOnUpdate.never,
+                      moveAnimationDuration: const Duration(milliseconds: 300),
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        ...missions.map((mission) {
+                          final missionCoordinate = LatLng(
+                            mission['latitude'],
+                            mission['longitude'],
+                          );
+                          return Marker(
+                            point: missionCoordinate,
+                            child: MissionMarker(
+                              onPressed: () => onPressed(mission),
+                              mission: mission,
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],

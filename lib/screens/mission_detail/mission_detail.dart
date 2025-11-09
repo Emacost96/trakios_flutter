@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/styled_button/styled_button.dart';
 import 'package:trakios/utilities/mission_utils.dart';
 
-class MissionDetail extends StatefulWidget {
+class MissionDetail extends ConsumerStatefulWidget {
   const MissionDetail({super.key, required this.id});
   final String id;
 
   @override
-  State<MissionDetail> createState() => _MissionDetailState();
+  ConsumerState<MissionDetail> createState() => _MissionDetailState();
 }
 
-class _MissionDetailState extends State<MissionDetail> {
+class _MissionDetailState extends ConsumerState<MissionDetail> {
   Map<String, dynamic>? mission;
 
   @override
@@ -39,12 +40,8 @@ class _MissionDetailState extends State<MissionDetail> {
   Widget build(BuildContext context) {
     if (mission == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Mission Not Found'),
-        ),
-        body: const Center(
-          child: Text('Mission not found'),
-        ),
+        appBar: AppBar(title: const Text('Mission Not Found')),
+        body: const Center(child: Text('Mission not found')),
       );
     }
 
@@ -92,17 +89,21 @@ class _MissionDetailState extends State<MissionDetail> {
                   Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          name,
-                          style: AppTextStyles.title(context),
-                        ),
+                        child: Text(name, style: AppTextStyles.title(context)),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: status == 'completed'
-                              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
-                              : Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+                              ? Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(alpha: 0.1)
+                              : Theme.of(
+                                  context,
+                                ).colorScheme.secondary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -127,14 +128,16 @@ class _MissionDetailState extends State<MissionDetail> {
                         Icon(
                           Icons.category_outlined,
                           size: 16,
-                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                         const SizedBox(width: 6),
                         Text(
                           type,
-                          style: AppTextStyles.caption(context).copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
+                          style: AppTextStyles.caption(
+                            context,
+                          ).copyWith(fontStyle: FontStyle.italic),
                         ),
                         const SizedBox(width: 16),
                       ],
@@ -158,30 +161,19 @@ class _MissionDetailState extends State<MissionDetail> {
 
                   // SHORT DESCRIPTION
                   if (shortDescription.isNotEmpty) ...[
-                    Text(
-                      'Overview',
-                      style: AppTextStyles.subtitle(context),
-                    ),
+                    Text('Overview', style: AppTextStyles.subtitle(context)),
                     const SizedBox(height: 8),
-                    Text(
-                      shortDescription,
-                      style: AppTextStyles.body(context),
-                    ),
+                    Text(shortDescription, style: AppTextStyles.body(context)),
                     const SizedBox(height: 20),
                   ],
 
                   // DETAILED DESCRIPTION
                   if (notes.isNotEmpty) ...[
-                    Text(
-                      'Description',
-                      style: AppTextStyles.subtitle(context),
-                    ),
+                    Text('Description', style: AppTextStyles.subtitle(context)),
                     const SizedBox(height: 8),
                     Text(
                       notes,
-                      style: AppTextStyles.body(context).copyWith(
-                        height: 1.6,
-                      ),
+                      style: AppTextStyles.body(context).copyWith(height: 1.6),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -197,7 +189,9 @@ class _MissionDetailState extends State<MissionDetail> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -214,9 +208,9 @@ class _MissionDetailState extends State<MissionDetail> {
                                 const SizedBox(width: 8),
                                 Text(
                                   'Type: ${mission!['mission']['type']}',
-                                  style: AppTextStyles.bodySmall(context).copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: AppTextStyles.bodySmall(
+                                    context,
+                                  ).copyWith(fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
@@ -235,17 +229,17 @@ class _MissionDetailState extends State<MissionDetail> {
                   ],
 
                   // LOCATION INFO
-                  if (mission!['latitude'] != null && mission!['longitude'] != null) ...[
-                    Text(
-                      'Location',
-                      style: AppTextStyles.subtitle(context),
-                    ),
+                  if (mission!['latitude'] != null &&
+                      mission!['longitude'] != null) ...[
+                    Text('Location', style: AppTextStyles.subtitle(context)),
                     const SizedBox(height: 12),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -261,9 +255,9 @@ class _MissionDetailState extends State<MissionDetail> {
                               children: [
                                 Text(
                                   'Coordinates',
-                                  style: AppTextStyles.bodySmall(context).copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: AppTextStyles.bodySmall(
+                                    context,
+                                  ).copyWith(fontWeight: FontWeight.w500),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -290,7 +284,9 @@ class _MissionDetailState extends State<MissionDetail> {
           color: Theme.of(context).colorScheme.surface,
           border: Border(
             top: BorderSide(
-              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+              color: Theme.of(
+                context,
+              ).colorScheme.outline.withValues(alpha: 0.2),
               width: 1,
             ),
           ),
@@ -298,12 +294,14 @@ class _MissionDetailState extends State<MissionDetail> {
         child: SafeArea(
           child: SizedBox(
             width: double.infinity,
-            child: status == 'completed' 
+            child: status == 'completed'
                 ? ElevatedButton(
                     onPressed: null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                      foregroundColor: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -312,13 +310,19 @@ class _MissionDetailState extends State<MissionDetail> {
                     child: Text(
                       'Completed',
                       style: AppTextStyles.button(context).copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   )
                 : StyledButton(
                     onPressed: () async {
-                      await MissionUtils.attemptMissionCompletion(context, mission!);
+                      await MissionUtils.attemptMissionCompletion(
+                        context,
+                        ref,
+                        mission!,
+                      );
                     },
                     text: 'Start Mission',
                     color: Theme.of(context).colorScheme.primary,
@@ -351,7 +355,9 @@ class _MissionDetailImage extends StatelessWidget {
             child: Icon(
               Icons.image_not_supported,
               size: 60,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           );
         },
@@ -370,7 +376,9 @@ class _MissionDetailImage extends StatelessWidget {
           child: Icon(
             Icons.image_not_supported,
             size: 60,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.4),
           ),
         );
       },

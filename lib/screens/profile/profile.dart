@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trakios/theme/text_styles.dart';
-import 'package:trakios/theme/theme.dart';
 import 'package:trakios/assets/user.dart';
+import 'package:trakios/providers/profile/gallery_provider.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -32,6 +35,7 @@ class Profile extends StatelessWidget {
   }
 }
 
+// ---------------- Profile Header ----------------
 class _ProfileHeaderCard extends StatelessWidget {
   const _ProfileHeaderCard();
 
@@ -48,7 +52,7 @@ class _ProfileHeaderCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
       color: theme.colorScheme.surface,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,7 +62,7 @@ class _ProfileHeaderCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(999),
-                  child: _buildAvatar(avatarUrl, theme),
+                  child: _buildImage(avatarUrl, theme, size: 84),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -74,12 +78,9 @@ class _ProfileHeaderCard extends StatelessWidget {
 
             const SizedBox(height: 18),
 
-            // Token Balance label
+            // Token Balance
             Text('Token Balance', style: AppTextStyles.bodySmall(context)),
-
             const SizedBox(height: 4),
-
-            // Token Balance value + icon
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -129,7 +130,7 @@ class _ProfileHeaderCard extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // Gallery button (solo UI / filtro)
+            // Gallery button (solo UI)
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -158,43 +159,37 @@ class _ProfileHeaderCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(String avatarUrl, ThemeData theme) {
-    // Verifica se l'avatar è un asset locale o un URL di rete
-    print('Avatar URL: $avatarUrl'); // Debug line
-
+  // Funzione comune per immagini locali e remote
+  Widget _buildImage(String url, ThemeData theme, {double size = 40}) {
     Widget imageWidget;
 
-    if (avatarUrl.startsWith('assets/')) {
+    if (url.startsWith('assets/')) {
       imageWidget = Image.asset(
-        avatarUrl,
-        width: 84,
-        height: 84,
+        url,
+        width: size,
+        height: size,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          print('Error loading avatar asset: $error'); // Debug line
-          return _buildFallbackAvatar(theme);
+          return _buildFallbackImage(theme, size);
         },
       );
-    } else if (avatarUrl.startsWith('http')) {
+    } else if (url.startsWith('http')) {
       imageWidget = Image.network(
-        avatarUrl,
-        width: 84,
-        height: 84,
+        url,
+        width: size,
+        height: size,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          print('Error loading avatar network: $error'); // Debug line
-          return _buildFallbackAvatar(theme);
+          return _buildFallbackImage(theme, size);
         },
       );
     } else {
-      print('Avatar URL does not match any pattern: $avatarUrl'); // Debug line
-      return _buildFallbackAvatar(theme);
+      return _buildFallbackImage(theme, size);
     }
 
-    // Aggiungi background colorato in base al tema
     return Container(
-      width: 84,
-      height: 84,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: theme.brightness == Brightness.dark
             ? Colors.black
@@ -205,25 +200,27 @@ class _ProfileHeaderCard extends StatelessWidget {
     );
   }
 
-  Widget _buildFallbackAvatar(ThemeData theme) {
+  Widget _buildFallbackImage(ThemeData theme, double size) {
     return CircleAvatar(
-      radius: 42,
-      backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.15),
-      child: Icon(Icons.person, size: 40, color: theme.colorScheme.onSurface),
+      radius: size / 2,
+      backgroundColor: theme.colorScheme.primary.withOpacity(0.15),
+      child: Icon(
+        Icons.person,
+        size: size / 2,
+        color: theme.colorScheme.onSurface,
+      ),
     );
   }
 }
 
-class _GalleryGrid extends StatelessWidget {
+// ---------------- Gallery Grid ----------------
+class _GalleryGrid extends ConsumerWidget {
   const _GalleryGrid();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-
-    final List<String> galleryImages = List<String>.from(
-      user['recentMemories'] ?? [],
-    );
+    final galleryImages = ref.watch(galleryProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,26 +239,62 @@ class _GalleryGrid extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final url = galleryImages[index];
+
             return ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                url,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: theme.colorScheme.surface,
-                    child: Icon(
-                      Icons.image_not_supported,
-                      size: 22,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
-                  );
-                },
-              ),
+              child: _buildGalleryImage(url, theme),
             );
           },
         ),
       ],
+    );
+  }
+
+  // Funzione comune per immagini della galleria
+  Widget _buildGalleryImage(String path, ThemeData theme) {
+    if (path.startsWith('assets/')) {
+      // Asset locale
+      return Image.asset(
+        path,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackGalleryImage(theme);
+        },
+      );
+    } else if (path.startsWith('http')) {
+      // URL remoto
+      return Image.network(
+        path,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackGalleryImage(theme);
+        },
+      );
+    } else {
+      // File locale (Android e iOS)
+      final file = File(path);
+      if (file.existsSync()) {
+        return Image.file(
+          file,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return _buildFallbackGalleryImage(theme);
+          },
+        );
+      } else {
+        return _buildFallbackGalleryImage(theme);
+      }
+    }
+  }
+
+  Widget _buildFallbackGalleryImage(ThemeData theme) {
+    return Container(
+      color: theme.colorScheme.surface,
+      child: Icon(
+        Icons.image_not_supported,
+        size: 22,
+        color: theme.colorScheme.onSurface.withOpacity(0.6),
+      ),
     );
   }
 }

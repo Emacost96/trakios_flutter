@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/widgets/styled_button/styled_button.dart';
 import 'package:trakios/utilities/mission_utils.dart';
 
-class MissionModal extends StatelessWidget {
+class MissionModal extends ConsumerWidget {
   const MissionModal({super.key, required this.mission, required this.context});
 
   final Map<String, dynamic> mission;
   final BuildContext context;
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context, WidgetRef ref) => Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Row(
@@ -82,15 +83,20 @@ class MissionModal extends StatelessWidget {
               size: 20,
               color: Theme.of(context).colorScheme.onPrimary,
             ),
-            SizedBox(width: 8,),
-            Expanded(child: Text(mission['mission']?['description'], style: AppTextStyles.caption(context),))
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                mission['mission']?['description'],
+                style: AppTextStyles.caption(context),
+              ),
+            ),
           ],
         ),
 
       SizedBox(height: 14),
       StyledButton(
         onPressed: () async {
-          await MissionUtils.attemptMissionCompletion(context, mission);
+          await MissionUtils.attemptMissionCompletion(context, ref, mission);
           if (context.mounted) {
             Navigator.of(context).pop();
           }
