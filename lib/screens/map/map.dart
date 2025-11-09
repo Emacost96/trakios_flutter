@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/screens/map/widgets/mission_marker.dart';
-import 'package:trakios/utilities/geo_utils.dart';
+import 'package:trakios/utilities/mission_utils.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -63,9 +63,9 @@ class _MapScreenState extends State<MapScreen> {
   /// Helper to show a simple message on screen
   void _showSnack(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   /// Toggle tracking mode and move the map to user's location if enabled
@@ -82,19 +82,8 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    onPressed(LatLng missionCoordinate) async {
-      final position = await GeoUtils.getUserPosition();
-      if (position != null) {
-        bool isLesThan10Meters = GeoUtils.isCloserTahn10Meters(
-          position,
-          missionCoordinate,
-        );
-
-        if (isLesThan10Meters)
-          _showSnack('Mission Accomplished');
-        else
-          _showSnack('Try Again');
-      }
+    onPressed(Map<String, dynamic> mission) async {
+      await MissionUtils.attemptMissionCompletion(context, mission);
     }
 
     return FutureBuilder<LatLng?>(
@@ -150,16 +139,16 @@ class _MapScreenState extends State<MapScreen> {
               ),
               MarkerLayer(
                 markers: [
-                  ...missions.map((el) {
+                  ...missions.map((mission) {
                     final missionCoordinate = LatLng(
-                      el['latitude'],
-                      el['longitude'],
+                      mission['latitude'],
+                      mission['longitude'],
                     );
                     return Marker(
                       point: missionCoordinate,
                       child: MissionMarker(
-                        onPressed: () => onPressed(missionCoordinate),
-                        mission: el,
+                        onPressed: () => onPressed(mission),
+                        mission: mission,
                       ),
                     );
                   }),

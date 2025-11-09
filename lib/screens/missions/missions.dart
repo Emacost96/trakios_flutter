@@ -1,8 +1,12 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trakios/assets/campaigns.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/theme/text_styles.dart';
+import 'package:trakios/widgets/modal/modal.dart';
+import 'package:trakios/widgets/modal/modals/mission_modal.dart';
+import 'package:trakios/utilities/mission_utils.dart';
 
 // Helper functions to connect campaigns with missions
 Map<String, dynamic>? getMissionById(int missionId) {
@@ -57,18 +61,18 @@ class Missions extends StatelessWidget {
             dividerColor: Colors.transparent,
             tabs: [
               Tab(
-                text: 'Missions',
+                text: 'Campaigns',
               ),
               Tab(
-                text: 'Campaigns',
+                text: 'Missions',
               ),
             ],
           ),
         ),
         body: const TabBarView(
           children: [
-            MissionsTab(),
             CampaignsTab(),
+            MissionsTab(),
           ],
         ),
       ),
@@ -128,14 +132,31 @@ class MissionsTab extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.subtitle(context),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.subtitle(context),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              GestureDetector(
+                                onTap: () {
+                                  context.push('/missions/${mission['id']}');
+                                },
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 18,
+                                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 12),
                         Row(
                           children: [
                             Icon(
@@ -183,9 +204,11 @@ class MissionsTab extends StatelessWidget {
                             vertical: 10,
                           ),
                         ),
-                        onPressed: () {
-                          // TODO: naviga alla schermata dettagli
-                        },
+                        onPressed: status == 'completed' 
+                            ? null 
+                            : () async {
+                                await MissionUtils.attemptMissionCompletion(context, mission);
+                              },
                         child: Text(
                           status == 'completed'
                               ? 'Completed'
@@ -478,11 +501,6 @@ class _CampaignsTabState extends State<CampaignsTab>
                                           }
                                           return _MissionRow(
                                             mission: mission,
-                                            onTap: (mission) {
-                                              setState(() {
-                                                _selectedMission = mission;
-                                              });
-                                            },
                                           );
                                         },
                                       ),
@@ -609,17 +627,25 @@ class _ArcPainter extends CustomPainter {
 /// Righe mission come prima, ma su sfondo chiaro
 class _MissionRow extends StatelessWidget {
   final Map<String, dynamic> mission;
-  final void Function(Map<String, dynamic> mission) onTap;
 
   const _MissionRow({
     required this.mission,
-    required this.onTap,
   });
+
+  void _openMissionModal(BuildContext context) {
+    Modal.showModal(
+      context,
+      MissionModal(
+        mission: mission,
+        context: context,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap(mission),
+      onTap: () => _openMissionModal(context),
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
