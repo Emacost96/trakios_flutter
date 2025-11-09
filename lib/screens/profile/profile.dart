@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trakios/providers/profile/balance_provider.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/assets/user.dart';
 import 'package:trakios/providers/profile/gallery_provider.dart';
@@ -36,15 +37,20 @@ class Profile extends StatelessWidget {
 }
 
 // ---------------- Profile Header ----------------
-class _ProfileHeaderCard extends StatelessWidget {
+class _ProfileHeaderCard extends ConsumerStatefulWidget {
   const _ProfileHeaderCard();
 
+  @override
+  ConsumerState<_ProfileHeaderCard> createState() => _ProfileHeaderCardState();
+}
+
+class _ProfileHeaderCardState extends ConsumerState<_ProfileHeaderCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     final String userName = user['name'] ?? 'Unknown User';
-    final int tokenBalance = user['tokenBalance'] ?? 0;
+    final tokenBalance = ref.watch(tokenBalanceProvider);
     final String avatarUrl = user['avatar'] ?? '';
 
     return Card(
@@ -91,7 +97,7 @@ class _ProfileHeaderCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  tokenBalance.toString().replaceAll('.', ','),
+                  tokenBalance.toString(),
                   style: AppTextStyles.title(
                     context,
                   ).copyWith(fontWeight: FontWeight.w800),

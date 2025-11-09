@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:trakios/providers/profile/balance_provider.dart';
 import 'package:trakios/providers/profile/gallery_provider.dart';
 import 'package:trakios/utilities/geo_utils.dart';
 import 'package:trakios/utilities/image_utils.dart';
@@ -101,6 +102,10 @@ class MissionUtils {
           final newList = [image.path, ...state]; // aggiunge in cima
           return newList;
         });
+
+        ref
+            .read(tokenBalanceProvider.notifier)
+            .update((state) => state + (mission['token'] as int));
 
         return image;
       } else {

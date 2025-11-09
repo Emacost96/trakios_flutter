@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trakios/assets/missions.dart';
-import 'package:trakios/assets/user.dart';
+import 'package:trakios/providers/profile/balance_provider.dart';
 import 'package:trakios/screens/map/widgets/mission_marker.dart';
 import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/utilities/mission_utils.dart';
@@ -107,6 +107,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           );
         }
 
+        final balanceProvider = ref.watch(tokenBalanceProvider);
         // Build the map once we have a valid location
         return Scaffold(
           body: Column(
@@ -153,8 +154,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             size: 16,
                           ),
                           SizedBox(width: 4),
+
                           Text(
-                            '${user['tokenBalance']}',
+                            balanceProvider.toString(),
                             style: AppTextStyles.subtitle(context).copyWith(
                               color: Theme.of(context).colorScheme.primary,
                             ),
