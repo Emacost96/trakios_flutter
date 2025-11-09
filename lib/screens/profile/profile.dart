@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trakios/theme/text_styles.dart';
+import 'package:trakios/theme/theme.dart';
 import 'package:trakios/assets/user.dart';
 
 class Profile extends StatelessWidget {
@@ -10,10 +11,10 @@ class Profile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         title: const Text('Profile'),
       ),
       body: SingleChildScrollView(
@@ -105,8 +106,8 @@ class _ProfileHeaderCard extends StatelessWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  backgroundColor: const Color(0xFFFF5A64), // rosso stile mock
-                  foregroundColor: Colors.white,
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
                   padding: const EdgeInsets.symmetric(
                     vertical: 12,
                     horizontal: 14,
@@ -134,8 +135,8 @@ class _ProfileHeaderCard extends StatelessWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  backgroundColor: const Color(0xFFFF5A64),
-                  foregroundColor: Colors.white,
+                  backgroundColor: theme.colorScheme.secondary,
+                  foregroundColor: theme.colorScheme.onSecondary,
                   padding: const EdgeInsets.symmetric(
                     vertical: 11,
                     horizontal: 14,
@@ -248,7 +249,7 @@ class _GalleryGrid extends StatelessWidget {
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    color: theme.colorScheme.surfaceVariant,
+                    color: theme.colorScheme.surface,
                     child: Icon(
                       Icons.image_not_supported,
                       size: 22,

@@ -1,7 +1,7 @@
 final List<Map<String, dynamic>> missions = [
   {
     'id': 1,
-    'name': 'H-Farm Tractor',
+    'name': 'H-FARM Tractor',
     'type': 'installazione/statua',
     'latitude': 45.564845,
     'longitude': 12.435304,
@@ -12,7 +12,7 @@ final List<Map<String, dynamic>> missions = [
     'token': 0.001,
     'images': [
       {
-        'caption': 'H-Farm Tractor',
+        'caption': 'H-FARM Tractor',
         'url': 'assets/images/missions/trattore.png',
       },
     ],
@@ -98,47 +98,121 @@ final List<Map<String, dynamic>> missions = [
     ],
     'campaign': 2, // Treviso Secrets
   },
+  // Nuove missioni basate sulle immagini trovate
   {
-    'id': 5,
-    'name': 'Casa di Ema',
-    'type': 'agriturismo/paesaggio',
-    'latitude': 45.50384310084704,
-    'longitude': 12.256369744947257,
-    'shortDescription': 'Visit a the most beautiful guy in Italy.',
+    'id': 6,
+    'name': 'H-FARM Innovation Library',
+    'type': 'edificio/tecnologia',
+    'latitude': 45.564920,
+    'longitude': 12.435180,
+    'shortDescription': 'Visit the futuristic library space.',
     'notes':
-        'Cascina tipica della campagna trevigiana, perfetta per raccontare il legame tra territorio, enogastronomia e ospitalità locale.',
+        'Biblioteca innovativa di H-FARM, spazio di co-working e studio che rappresenta il futuro dell\'educazione digitale sostenibile.',
     'status': 'active',
-    'token': 0.001,
+    'token': 0.002,
     'images': [
       {
-        'caption': 'Farmhouse in Treviso',
-        'url': 'assets/images/missions/agriturismo-treviso.png',
+        'caption': 'H-FARM Innovation Library',
+        'url': 'assets/images/missions/H-FARM_library.jpg',
       },
     ],
-    'campaign': 2,
+    'campaign': 1, // H-FARM Icons
     'mission': {
-      'type': 'photo',
-      'description': 'Take a photo with the tractor.',
+      'type': 'check-in',
+      'description': 'Check-in at the library and share your sustainable innovation idea.',
     },
   },
   {
-    'id': 6,
-    'name': 'Casa di Marco',
-    'type': 'agriturismo/paesaggio',
-    'latitude': 45.871923,
-    'longitude': 12.291277,
-    'shortDescription': 'Visit a the (real) most beautiful guy in Italy.',
+    'id': 7,
+    'name': 'H-FARM Serra',
+    'type': 'agricoltura/sostenibilità',
+    'latitude': 45.564500,
+    'longitude': 12.435800,
+    'shortDescription': 'Discover sustainable agriculture in action.',
     'notes':
-        'Cascina tipica della campagna trevigiana, perfetta per raccontare il legame tra territorio, enogastronomia e ospitalità locale.',
+        'Serra tecnologica H-FARM che dimostra l\'innovazione nell\'agricoltura sostenibile, unendo tradizione e tecnologia per un futuro green.',
     'status': 'active',
-    'token': 0.001,
+    'token': 0.003,
     'images': [
       {
-        'caption': 'Farmhouse in Treviso',
-        'url': 'assets/images/missions/agriturismo-treviso.png',
+        'caption': 'H-FARM Sustainable Serra',
+        'url': 'assets/images/missions/H-FARM_serra.jpeg',
       },
     ],
-    'campaign': 2, // Treviso Secrets
+    'campaign': 1, // H-FARM Icons
+    'mission': {
+      'type': 'interactive',
+      'description': 'Learn about hydroponic farming and take a photo of sustainable agriculture.',
+    },
+  },
+  {
+    'id': 8,
+    'name': 'Mulinetto della Croda',
+    'type': 'mulino/paesaggio',
+    'latitude': 45.8856,
+    'longitude': 12.2142,
+    'shortDescription': 'Discover the historic watermill in nature.',
+    'notes':
+        'Antico mulino ad acqua immerso nella natura delle Prealpi trevigiane, esempio perfetto di energia rinnovabile storica e turismo sostenibile.',
+    'status': 'active',
+    'token': 0.015,
+    'images': [
+      {
+        'caption': 'Historic Watermill in Nature',
+        'url': 'assets/images/missions/mulinetto_della_croda.jpg',
+      },
+    ],
+    'campaign': 4, // Veneto Heritage
+    'mission': {
+      'type': 'educational',
+      'description': 'Learn about historic renewable energy and take photos of the watermill.',
+    },
+  },
+  {
+    'id': 9,
+    'name': 'Castello di Conegliano',
+    'type': 'castello/storico',
+    'latitude': 45.8897,
+    'longitude': 12.2976,
+    'shortDescription': 'Explore the medieval castle on the hill.',
+    'notes':
+        'Castello medievale che domina Conegliano, punto panoramico eccezionale per scoprire la storia e i paesaggi del Prosecco DOCG.',
+    'status': 'active',
+    'token': 0.020,
+    'images': [
+      {
+        'caption': 'Medieval Castle of Conegliano',
+        'url': 'assets/images/campaigns/castello_conegliano.jpeg',
+      },
+    ],
+    'campaign': 5, // Prosecco Hills
+    'mission': {
+      'type': 'hike',
+      'description': 'Hike to the castle and enjoy sustainable wine tourism views.',
+    },
+  },
+  {
+    'id': 10,
+    'name': 'Forte Marghera',
+    'type': 'forte/storico',
+    'latitude': 45.4725,
+    'longitude': 12.2508,
+    'shortDescription': 'Visit the historic Austrian fortress.',
+    'notes':
+        'Fortezza austriaca del XIX secolo, oggi parco urbano e spazio culturale che unisce storia militare e riqualificazione sostenibile.',
+    'status': 'active',
+    'token': 0.012,
+    'images': [
+      {
+        'caption': 'Historic Fort Marghera',
+        'url': 'assets/images/campaigns/forte_marghera.jpeg',
+      },
+    ],
+    'campaign': 3, // Mestre Highlights
+    'mission': {
+      'type': 'cultural',
+      'description': 'Explore the fort\'s history and its transformation into a green urban park.',
+    },
   },
   {
     'id': 4,

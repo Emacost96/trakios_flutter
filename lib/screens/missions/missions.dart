@@ -105,7 +105,9 @@ class MissionsTab extends StatelessWidget {
           child: Card(
             margin: const EdgeInsets.only(bottom: 18),
             elevation: 3,
-            color: Theme.of(context).colorScheme.surface,
+            color: status == 'completed' 
+                ? Theme.of(context).colorScheme.surface.withValues(alpha: 0.4)
+                : Theme.of(context).colorScheme.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(22),
             ),
@@ -236,7 +238,52 @@ class _MissionImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _wrapWithGrayscale(_buildImage(context));
+    return Stack(
+      children: [
+        _wrapWithGrayscale(_buildImage(context)),
+        // Dark overlay for completed missions
+        if (isCompleted)
+          Container(
+            width: double.infinity,
+            height: 160,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.4),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(22),
+              ),
+            ),
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'COMPLETED',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   Widget _wrapWithGrayscale(Widget child) {

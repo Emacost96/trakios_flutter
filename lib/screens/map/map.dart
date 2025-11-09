@@ -4,7 +4,10 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trakios/assets/missions.dart';
+import 'package:trakios/assets/user.dart';
 import 'package:trakios/screens/map/widgets/mission_marker.dart';
+import 'package:trakios/theme/theme.dart';
+import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/utilities/mission_utils.dart';
 
 class MapScreen extends StatefulWidget {
@@ -106,10 +109,68 @@ class _MapScreenState extends State<MapScreen> {
 
         // Build the map once we have a valid location
         return Scaffold(
-          body: FlutterMap(
-            mapController: _mapController,
-            options: MapOptions(initialCenter: userLocation, initialZoom: 15),
+          body: Column(
             children: [
+              // Header with TRAKIOS title and user tokens
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  top: 50, // Account for status bar
+                  left: 24,
+                  right: 24,
+                  bottom: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).appBarTheme.backgroundColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'TRAKIOS',
+                      style: AppTextStyles.headline(context).copyWith(
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      // decoration: BoxDecoration(
+                      //   color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   border: Border.all(
+                      //     color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+                      //     width: 1,
+                      //   ),
+                      // ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.stars,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 16,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            '${user['tokenBalance']}',
+                            style: AppTextStyles.subtitle(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Map container
+              Expanded(
+                child: FlutterMap(
+                  mapController: _mapController,
+                  options: MapOptions(initialCenter: userLocation, initialZoom: 15),
+                  children: [
               // Base map layer (Carto Voyager)
               TileLayer(
                 urlTemplate:
@@ -153,6 +214,9 @@ class _MapScreenState extends State<MapScreen> {
                     );
                   }),
                 ],
+              ),
+            ],
+                ),
               ),
             ],
           ),
