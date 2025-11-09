@@ -16,7 +16,11 @@ final List<Map<String, dynamic>> missions = [
         'url': 'assets/images/missions/trattore.png',
       },
     ],
-    'campaign': 1, // H-FARM Icons
+    'campaign': 1, // H-FARM Icons,
+    'mission': {
+          'type': 'photo',
+          'description': 'Take a photo with the tractor.',
+    }
   },
   {
     'id': 2,
