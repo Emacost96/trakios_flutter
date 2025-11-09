@@ -60,6 +60,6 @@ class GeoUtils {
           latLng2.latitude,
           latLng2.longitude,
         ) <=
-        10;
+        20;
   }
 }

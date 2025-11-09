@@ -140,4 +140,26 @@ final List<Map<String, dynamic>> missions = [
     ],
     'campaign': 2, // Treviso Secrets
   },
+  {
+    'id': 4,
+    'name': 'La Serra',
+    'type': 'agriturismo/paesaggio',
+    'latitude': 45.564686831572615,
+    'longitude': 12.42806688871246,
+    'shortDescription': 'Posto incredibile.',
+    'notes': 'Posto incredibile al di fuori del tempo e dello spazio bello',
+    'status': 'active',
+    'token': 0.001,
+    'images': [
+      {
+        'caption': 'Farmhouse in Treviso',
+        'url': 'assets/images/missions/agriturismo-treviso.png',
+      },
+    ],
+    'campaign': 1,
+    'mission': {
+      'type': 'photo',
+      'description': 'Take a photo with the tractor.',
+    },
+  },
 ];

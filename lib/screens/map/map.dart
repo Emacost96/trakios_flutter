@@ -63,9 +63,9 @@ class _MapScreenState extends State<MapScreen> {
   /// Helper to show a simple message on screen
   void _showSnack(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   /// Toggle tracking mode and move the map to user's location if enabled
