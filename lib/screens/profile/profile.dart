@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trakios/theme/text_styles.dart';
+import 'package:trakios/assets/user.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -37,14 +38,13 @@ class _ProfileHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    const String userName = 'Jane Doe';
-    const int tokenBalance = 2045;
+    final String userName = user['name'] ?? 'Unknown User';
+    final int tokenBalance = user['tokenBalance'] ?? 0;
+    final String avatarUrl = user['avatar'] ?? '';
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(26),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
       color: theme.colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
@@ -57,22 +57,7 @@ class _ProfileHeaderCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(999),
-                  child: Image.network(
-                    // Avatar Pexels (hardcoded)
-                    'https://images.pexels.com/photos/3760850/pexels-photo-3760850.jpeg?auto=compress&cs=tinysrgb&w=400',
-                    width: 84,
-                    height: 84,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => CircleAvatar(
-                      radius: 42,
-                      backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.15),
-                      child: Icon(
-                        Icons.person,
-                        size: 40,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
+                  child: _buildAvatar(avatarUrl, theme),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -89,10 +74,7 @@ class _ProfileHeaderCard extends StatelessWidget {
             const SizedBox(height: 18),
 
             // Token Balance label
-            Text(
-              'Token Balance',
-              style: AppTextStyles.bodySmall(context),
-            ),
+            Text('Token Balance', style: AppTextStyles.bodySmall(context)),
 
             const SizedBox(height: 4),
 
@@ -108,9 +90,9 @@ class _ProfileHeaderCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   tokenBalance.toString().replaceAll('.', ','),
-                  style: AppTextStyles.title(context).copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: AppTextStyles.title(
+                    context,
+                  ).copyWith(fontWeight: FontWeight.w800),
                 ),
               ],
             ),
@@ -125,8 +107,10 @@ class _ProfileHeaderCard extends StatelessWidget {
                   elevation: 0,
                   backgroundColor: const Color(0xFFFF5A64), // rosso stile mock
                   foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 14,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),
@@ -152,8 +136,10 @@ class _ProfileHeaderCard extends StatelessWidget {
                   elevation: 0,
                   backgroundColor: const Color(0xFFFF5A64),
                   foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 11, horizontal: 14),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 11,
+                    horizontal: 14,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),
@@ -162,10 +148,7 @@ class _ProfileHeaderCard extends StatelessWidget {
                   // TODO: scroll alla gallery / apri pagina gallery
                 },
                 icon: const Icon(Icons.photo_library_rounded, size: 20),
-                label: Text(
-                  'Gallery',
-                  style: AppTextStyles.button(context),
-                ),
+                label: Text('Gallery', style: AppTextStyles.button(context)),
               ),
             ),
           ],
@@ -173,42 +156,83 @@ class _ProfileHeaderCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildAvatar(String avatarUrl, ThemeData theme) {
+    // Verifica se l'avatar è un asset locale o un URL di rete
+    print('Avatar URL: $avatarUrl'); // Debug line
+
+    Widget imageWidget;
+
+    if (avatarUrl.startsWith('assets/')) {
+      imageWidget = Image.asset(
+        avatarUrl,
+        width: 84,
+        height: 84,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print('Error loading avatar asset: $error'); // Debug line
+          return _buildFallbackAvatar(theme);
+        },
+      );
+    } else if (avatarUrl.startsWith('http')) {
+      imageWidget = Image.network(
+        avatarUrl,
+        width: 84,
+        height: 84,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print('Error loading avatar network: $error'); // Debug line
+          return _buildFallbackAvatar(theme);
+        },
+      );
+    } else {
+      print('Avatar URL does not match any pattern: $avatarUrl'); // Debug line
+      return _buildFallbackAvatar(theme);
+    }
+
+    // Aggiungi background colorato in base al tema
+    return Container(
+      width: 84,
+      height: 84,
+      decoration: BoxDecoration(
+        color: theme.brightness == Brightness.dark
+            ? Colors.black
+            : Colors.white,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: imageWidget,
+    );
+  }
+
+  Widget _buildFallbackAvatar(ThemeData theme) {
+    return CircleAvatar(
+      radius: 42,
+      backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.15),
+      child: Icon(Icons.person, size: 40, color: theme.colorScheme.onSurface),
+    );
+  }
 }
 
 class _GalleryGrid extends StatelessWidget {
   const _GalleryGrid();
 
-  // immagini Pexels hardcodate
-  static const List<String> _galleryImages = [
-    'https://images.pexels.com/photos/4606720/pexels-photo-4606720.jpeg?auto=compress&cs=tinysrgb&w=400', // Colosseo
-    'https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg?auto=compress&cs=tinysrgb&w=400',  // paesaggio verde
-    'https://images.pexels.com/photos/4606726/pexels-photo-4606726.jpeg?auto=compress&cs=tinysrgb&w=400', // chiesetta
-    'https://images.pexels.com/photos/4606727/pexels-photo-4606727.jpeg?auto=compress&cs=tinysrgb&w=400', // borgo
-    'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg?auto=compress&cs=tinysrgb&w=400',  // mare
-    'https://images.pexels.com/photos/356004/pexels-photo-356004.jpeg?auto=compress&cs=tinysrgb&w=400',  // montagna
-    'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=400',  // ponte
-    'https://images.pexels.com/photos/21014/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=400',
-    'https://images.pexels.com/photos/4606720/pexels-photo-4606720.jpeg?auto=compress&cs=tinysrgb&w=400', // Colosseo
-    'https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg?auto=compress&cs=tinysrgb&w=400',  // paesaggio verde
-    'https://images.pexels.com/photos/4606726/pexels-photo-4606726.jpeg?auto=compress&cs=tinysrgb&w=400', // ch
-  ];
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final List<String> galleryImages = List<String>.from(
+      user['recentMemories'] ?? [],
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Recent Memories',
-          style: AppTextStyles.subtitle(context),
-        ),
+        Text('Recent Memories', style: AppTextStyles.subtitle(context)),
         const SizedBox(height: 10),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: _galleryImages.length,
+          itemCount: galleryImages.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 8,
@@ -216,7 +240,7 @@ class _GalleryGrid extends StatelessWidget {
             childAspectRatio: 1,
           ),
           itemBuilder: (context, index) {
-            final url = _galleryImages[index];
+            final url = galleryImages[index];
             return ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
@@ -228,8 +252,7 @@ class _GalleryGrid extends StatelessWidget {
                     child: Icon(
                       Icons.image_not_supported,
                       size: 22,
-                      color:
-                          theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   );
                 },

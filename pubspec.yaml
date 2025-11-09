@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/images/campaigns/
     - assets/images/missions/
+    - assets/images/avatar/
 
   #  - assets/img/campaigns/hfarm_nature.png
 
