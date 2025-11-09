@@ -102,8 +102,8 @@ final List<Map<String, dynamic>> missions = [
     'id': 6,
     'name': 'H-FARM Innovation Library',
     'type': 'building/technology',
-    'latitude': 45.564920,
-    'longitude': 12.435180,
+    'latitude': 45.56613841006465,
+    'longitude': 12.429988149687365,
     'shortDescription': 'Visit the futuristic library space.',
     'notes':
         'H-FARM\'s innovative library, co-working and study space that represents the future of sustainable digital education.',

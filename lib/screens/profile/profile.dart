@@ -7,30 +7,56 @@ import 'package:trakios/theme/text_styles.dart';
 import 'package:trakios/assets/user.dart';
 import 'package:trakios/providers/profile/gallery_provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends ConsumerWidget {
   const Profile({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: theme.scaffoldBackgroundColor,
-        title: const Text('Profile'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            _ProfileHeaderCard(),
-            SizedBox(height: 18),
-            _GalleryGrid(),
-          ],
-        ),
+      body: Column(
+        children: [
+          // Header with logo and user tokens (same as map.dart)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(
+              top: 50, // Account for status bar
+              left: 24,
+              right: 24,
+              bottom: 16,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).appBarTheme.backgroundColor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/images/logo/text_logo.png',
+                  height: 20,
+                  fit: BoxFit.contain,
+                ),
+                
+              ],
+            ),
+          ),
+          // Profile content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  _ProfileHeaderCard(),
+                  SizedBox(height: 18),
+                  _GalleryGrid(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -66,9 +92,15 @@ class _ProfileHeaderCardState extends ConsumerState<_ProfileHeaderCard> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(999),
-                  child: _buildImage(avatarUrl, theme, size: 84),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: theme.colorScheme.onSurface, width: 2),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: _buildImage(avatarUrl, theme, size: 84),
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -76,7 +108,7 @@ class _ProfileHeaderCardState extends ConsumerState<_ProfileHeaderCard> {
                     userName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.title(context),
+                    style: AppTextStyles.title(context).copyWith(fontSize: 28, color: theme.colorScheme.onSurface),
                   ),
                 ),
               ],

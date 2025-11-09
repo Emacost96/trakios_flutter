@@ -18,6 +18,17 @@ class ScaffoldWithNavBar extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) => _onItemTapped(context, index),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 11,
+        ),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
           BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'Missions'),

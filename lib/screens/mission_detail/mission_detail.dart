@@ -142,7 +142,7 @@ class _MissionDetailState extends ConsumerState<MissionDetail> {
                         const SizedBox(width: 16),
                       ],
                       Icon(
-                        Icons.monetization_on_outlined,
+                        Icons.token_rounded,
                         size: 16,
                         color: Theme.of(context).colorScheme.primary,
                       ),

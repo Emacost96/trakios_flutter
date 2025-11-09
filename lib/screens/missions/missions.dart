@@ -161,7 +161,7 @@ class MissionsTab extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons.monetization_on_outlined,
+                                Icons.token_rounded,
                                 size: 16,
                                 color: Theme.of(context).colorScheme.primary,
                               ),

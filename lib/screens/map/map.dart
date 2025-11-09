@@ -127,11 +127,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'TRAKIOS',
-                      style: AppTextStyles.headline(
-                        context,
-                      ).copyWith(letterSpacing: 1.2),
+                    Image.asset(
+                      'assets/images/logo/text_logo.png',
+                      height: 20,
+                      fit: BoxFit.contain,
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -149,7 +148,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.stars,
+                            Icons.token_rounded,
                             color: Theme.of(context).colorScheme.primary,
                             size: 16,
                           ),
@@ -213,6 +212,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           );
                           return Marker(
                             point: missionCoordinate,
+                            width: 60,
+                            height: 60,
                             child: MissionMarker(
                               onPressed: () => onPressed(mission),
                               mission: mission,

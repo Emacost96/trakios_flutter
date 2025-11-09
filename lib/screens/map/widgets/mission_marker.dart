@@ -15,11 +15,17 @@ class MissionMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine which icon to use based on mission status
+    final String iconPath = mission['status'] == 'completed' 
+        ? 'assets/images/icons/mission_completed.png'
+        : 'assets/images/icons/mission_active.png';
+    
     return InkWell(
-      child: Icon(
-        Icons.where_to_vote_rounded,
-        size: 50,
-        color: Theme.of(context).primaryColor,
+      child: Image.asset(
+        iconPath,
+        width: 80,
+        height: 80,
+        fit: BoxFit.contain,
       ),
       onTap: () => Modal.showModal(
         context,
