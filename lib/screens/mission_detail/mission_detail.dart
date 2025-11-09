@@ -53,7 +53,7 @@ class _MissionDetailState extends State<MissionDetail> {
     final String shortDescription = mission!['shortDescription'] ?? '';
     final String notes = mission!['notes'] ?? '';
     final String status = mission!['status'] ?? 'active';
-    final double token = (mission!['token'] ?? 0.0).toDouble();
+    final int token = (mission!['token'] ?? 0);
     final List<dynamic> images = mission!['images'] ?? [];
 
     String? imageUrl;
@@ -145,7 +145,7 @@ class _MissionDetailState extends State<MissionDetail> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${token.toStringAsFixed(3).replaceAll('.', ',')} tokens',
+                        '${token} tokens',
                         style: AppTextStyles.caption(context).copyWith(
                           fontWeight: FontWeight.w600,
                           color: Theme.of(context).colorScheme.primary,

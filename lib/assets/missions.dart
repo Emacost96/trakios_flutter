@@ -2,14 +2,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 1,
     'name': 'H-FARM Tractor',
-    'type': 'installazione/statua',
+    'type': 'installation/statue',
     'latitude': 45.564845,
     'longitude': 12.435304,
     'shortDescription': 'Explore the iconic red tractor.',
     'notes':
-        'Storico trattore rosso all’ingresso del campus H-FARM, simbolo del legame tra innovazione digitale e radici agricole venete.',
+        'Historic red tractor at the entrance of the H-FARM campus, symbol of the connection between digital innovation and Venetian agricultural roots.',
     'status': 'active',
-    'token': 0.001,
+    'token': 100,
     'images': [
       {
         'caption': 'H-FARM Tractor',
@@ -25,14 +25,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 2,
     'name': 'Colle Umberto\'s Church',
-    'type': 'chiesa/storico',
+    'type': 'church/historic',
     'latitude': 45.9579,
     'longitude': 12.3481,
     'shortDescription': 'Discover the hilltop church and its views.',
     'notes':
-        'Antica chiesa immersa tra le colline trevigiane, punto panoramico ideale per esplorare storia e paesaggio locale.',
+        'Ancient church nestled among the hills of Treviso, ideal panoramic point to explore local history and landscape.',
     'status': 'active',
-    'token': 0.010,
+    'token': 1000,
     'images': [
       {
         'caption': 'Colle Umberto\'s Church',
@@ -44,14 +44,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 3,
     'name': 'Fontana delle Tette',
-    'type': 'fontana/storico',
+    'type': 'fountain/historic',
     'latitude': 45.6669,
     'longitude': 12.2455,
     'shortDescription': 'Explore the ancient fountain of Treviso.',
     'notes':
-        'Riproduzione della celebre fontana rinascimentale, simbolo della città di Treviso e delle sue tradizioni popolari.',
+        'Reproduction of the famous Renaissance fountain, symbol of the city of Treviso and its popular traditions.',
     'status': 'completed',
-    'token': 0.010,
+    'token': 1000,
     'images': [
       {
         'caption': 'Fontana delle Tette',
@@ -63,14 +63,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 4,
     'name': 'Clock Tower of Mestre',
-    'type': 'torre/campanile',
+    'type': 'tower/bell tower',
     'latitude': 45.4894,
     'longitude': 12.2421,
-    'shortDescription': 'Reach the heart of Mestre’s old town.',
+    'shortDescription': 'Reach the heart of Mestre\'s old town.',
     'notes':
-        'Storico campanile che domina Piazza Ferretto, punto di riferimento urbano e tappa chiave per scoprire Mestre.',
+        'Historic bell tower that dominates Piazza Ferretto, urban landmark and key stop to discover Mestre.',
     'status': 'completed',
-    'token': 0.001,
+    'token': 100,
     'images': [
       {
         'caption': 'Clock Tower of Mestre',
@@ -82,14 +82,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 5,
     'name': 'Farmhouse in Treviso',
-    'type': 'agriturismo/paesaggio',
+    'type': 'agritourism/landscape',
     'latitude': 45.6830,
     'longitude': 12.2520,
     'shortDescription': 'Visit a traditional Venetian farmhouse.',
     'notes':
-        'Cascina tipica della campagna trevigiana, perfetta per raccontare il legame tra territorio, enogastronomia e ospitalità locale.',
+        'Typical farmhouse of the Treviso countryside, perfect for telling the connection between territory, food and wine, and local hospitality.',
     'status': 'active',
-    'token': 0.001,
+    'token': 100,
     'images': [
       {
         'caption': 'Farmhouse in Treviso',
@@ -98,18 +98,17 @@ final List<Map<String, dynamic>> missions = [
     ],
     'campaign': 2, // Treviso Secrets
   },
-  // Nuove missioni basate sulle immagini trovate
   {
     'id': 6,
     'name': 'H-FARM Innovation Library',
-    'type': 'edificio/tecnologia',
+    'type': 'building/technology',
     'latitude': 45.564920,
     'longitude': 12.435180,
     'shortDescription': 'Visit the futuristic library space.',
     'notes':
-        'Biblioteca innovativa di H-FARM, spazio di co-working e studio che rappresenta il futuro dell\'educazione digitale sostenibile.',
+        'H-FARM\'s innovative library, co-working and study space that represents the future of sustainable digital education.',
     'status': 'active',
-    'token': 0.002,
+    'token': 200,
     'images': [
       {
         'caption': 'H-FARM Innovation Library',
@@ -124,38 +123,37 @@ final List<Map<String, dynamic>> missions = [
   },
   {
     'id': 7,
-    'name': 'H-FARM Serra',
-    'type': 'agricoltura/sostenibilità',
-    'latitude': 45.564500,
-    'longitude': 12.435800,
-    'shortDescription': 'Discover sustainable agriculture in action.',
-    'notes':
-        'Serra tecnologica H-FARM che dimostra l\'innovazione nell\'agricoltura sostenibile, unendo tradizione e tecnologia per un futuro green.',
+    'name': 'H-FARM La Serra',
+    'type': '',
+    'latitude': 45.564686831572615,
+    'longitude': 12.42806688871246,
+    'shortDescription': 'Incredible place.',
+    'notes': 'Incredible place outside of time and space, beautiful',
     'status': 'active',
-    'token': 0.003,
+    'token': 100,
     'images': [
       {
-        'caption': 'H-FARM Sustainable Serra',
+        'caption': 'H-FARM Sustainable Greenhouse',
         'url': 'assets/images/missions/H-FARM_serra.jpeg',
       },
     ],
     'campaign': 1, // H-FARM Icons
     'mission': {
-      'type': 'interactive',
-      'description': 'Learn about hydroponic farming and take a photo of sustainable agriculture.',
+      'type': 'photo',
+      'description': 'Take a photo of this unique location.',
     },
   },
   {
     'id': 8,
     'name': 'Mulinetto della Croda',
-    'type': 'mulino/paesaggio',
+    'type': 'mill/landscape',
     'latitude': 45.8856,
     'longitude': 12.2142,
     'shortDescription': 'Discover the historic watermill in nature.',
     'notes':
-        'Antico mulino ad acqua immerso nella natura delle Prealpi trevigiane, esempio perfetto di energia rinnovabile storica e turismo sostenibile.',
+        'Ancient watermill immersed in the nature of the Treviso Pre-Alps, perfect example of historic renewable energy and sustainable tourism.',
     'status': 'active',
-    'token': 0.015,
+    'token': 1500,
     'images': [
       {
         'caption': 'Historic Watermill in Nature',
@@ -171,14 +169,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 9,
     'name': 'Castello di Conegliano',
-    'type': 'castello/storico',
+    'type': 'castle/historic',
     'latitude': 45.8897,
     'longitude': 12.2976,
     'shortDescription': 'Explore the medieval castle on the hill.',
     'notes':
-        'Castello medievale che domina Conegliano, punto panoramico eccezionale per scoprire la storia e i paesaggi del Prosecco DOCG.',
+        'Medieval castle that dominates Conegliano, exceptional panoramic point to discover the history and landscapes of Prosecco DOCG.',
     'status': 'active',
-    'token': 0.020,
+    'token': 2000,
     'images': [
       {
         'caption': 'Medieval Castle of Conegliano',
@@ -194,14 +192,14 @@ final List<Map<String, dynamic>> missions = [
   {
     'id': 10,
     'name': 'Forte Marghera',
-    'type': 'forte/storico',
+    'type': 'fort/historic',
     'latitude': 45.4725,
     'longitude': 12.2508,
     'shortDescription': 'Visit the historic Austrian fortress.',
     'notes':
-        'Fortezza austriaca del XIX secolo, oggi parco urbano e spazio culturale che unisce storia militare e riqualificazione sostenibile.',
+        '19th-century Austrian fortress, now an urban park and cultural space that combines military history and sustainable redevelopment.',
     'status': 'active',
-    'token': 0.012,
+    'token': 1200,
     'images': [
       {
         'caption': 'Historic Fort Marghera',
@@ -212,28 +210,6 @@ final List<Map<String, dynamic>> missions = [
     'mission': {
       'type': 'cultural',
       'description': 'Explore the fort\'s history and its transformation into a green urban park.',
-    },
-  },
-  {
-    'id': 4,
-    'name': 'La Serra',
-    'type': 'agriturismo/paesaggio',
-    'latitude': 45.564686831572615,
-    'longitude': 12.42806688871246,
-    'shortDescription': 'Posto incredibile.',
-    'notes': 'Posto incredibile al di fuori del tempo e dello spazio bello',
-    'status': 'active',
-    'token': 0.001,
-    'images': [
-      {
-        'caption': 'Farmhouse in Treviso',
-        'url': 'assets/images/missions/agriturismo-treviso.png',
-      },
-    ],
-    'campaign': 1,
-    'mission': {
-      'type': 'photo',
-      'description': 'Take a photo with the tractor.',
     },
   },
 ];

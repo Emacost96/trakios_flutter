@@ -88,7 +88,7 @@ class MissionsTab extends StatelessWidget {
         final String shortDescription =
             mission['shortDescription'] ?? mission['notes'] ?? '';
         final String status = mission['status'] ?? 'active';
-        final double token = (mission['token'] ?? 0.0).toDouble();
+        final int token = (mission['token'] ?? 0);
 
         String? imageUrl;
         if (mission['images'] is List && mission['images'].isNotEmpty) {
@@ -167,7 +167,7 @@ class MissionsTab extends StatelessWidget {
                               ),
                               const SizedBox(width: 3),
                               Text(
-                                token.toStringAsFixed(3).replaceAll('.', ','),
+                                '${token}',
                                 style: AppTextStyles.caption(
                                   context,
                                 ).copyWith(fontWeight: FontWeight.w600),

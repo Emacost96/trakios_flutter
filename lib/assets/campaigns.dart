@@ -3,39 +3,38 @@ final List<Map<String, dynamic>> campaigns = [
     'id': 1,
     'type': 'Business',
     'name': 'H-FARM Icons',
-    'missions': [1, 6, 7], // Expanded: Tractor + Library + Greenhouse
+    'missions': [1, 6, 7, 11], // Tractor + Library + Greenhouse + La Serra
     'image': {
       'url': 'assets/images/campaigns/hfarm.png',
-      'captions': 'Logo H-FARM e icone del campus',
+      'captions': 'H-FARM logo and campus icons',
     },
     'description':
-        'Scopri l\'innovazione sostenibile di H-FARM: dal trattore simbolico alla serra tecnologica, passando per spazi di apprendimento futuristici.',
+        'Discover H-FARM\'s sustainable innovation: from the symbolic tractor to the technological greenhouse, passing through futuristic learning spaces.',
   },
   {
     'id': 2,
     'type': 'City',
     'name': 'Treviso Secrets',
-    'missions': [4, 5, 6], // Church + Fountain + Farmhouse
+    'missions': [2, 3, 5], // Church + Fountain + Farmhouse
     'image': {
       'url': 'assets/images/campaigns/treviso.png',
-      'captions': 'Stemma e skyline della città di Treviso',
+      'captions': 'Coat of arms and skyline of the city of Treviso',
     },
     'description':
-        'Un percorso tra centro storico e campagna: chiese panoramiche, fontane simboliche e antiche case rurali per un turismo consapevole.',
+        'A journey between historic center and countryside: panoramic churches, symbolic fountains and ancient rural houses for conscious tourism.',
   },
   {
     'id': 3,
     'type': 'City',
     'name': 'Mestre Highlights',
-    'missions': [7, 10], // Clock Tower + Fort Marghera
+    'missions': [4, 10], // Clock Tower + Fort Marghera
     'image': {
       'url': 'assets/images/campaigns/mestre.png',
-      'captions': 'Stemma della città di Mestre',
+      'captions': 'Coat of arms of the city of Mestre',
     },
     'description':
-        'Esplora l\'identità urbana di Mestre: dalla torre dell\'orologio storica al forte trasformato in parco sostenibile.',
+        'Explore Mestre\'s urban identity: from the historic clock tower to the fort transformed into a sustainable park.',
   },
-  // Nuove campagne basate sulle immagini trovate
   {
     'id': 4,
     'type': 'Nature',
@@ -43,10 +42,10 @@ final List<Map<String, dynamic>> campaigns = [
     'missions': [8], // Mulinetto della Croda
     'image': {
       'url': 'assets/images/campaigns/refrontolo.png',
-      'captions': 'Paesaggi naturali del Veneto',
+      'captions': 'Natural landscapes of Veneto',
     },
     'description':
-        'Scopri il patrimonio naturale e storico del Veneto attraverso antichi mulini ad acqua, esempi di energia rinnovabile del passato.',
+        'Discover Veneto\'s natural and historical heritage through ancient watermills, examples of past renewable energy.',
   },
   {
     'id': 5,
@@ -55,21 +54,21 @@ final List<Map<String, dynamic>> campaigns = [
     'missions': [9], // Castello di Conegliano
     'image': {
       'url': 'assets/images/campaigns/conegliano.png',
-      'captions': 'Colline del Prosecco DOCG',
+      'captions': 'Prosecco DOCG hills',
     },
     'description':
-        'Immergiti nel cuore delle colline del Prosecco: castelli medievali e vigneti sostenibili in un paesaggio UNESCO.',
+        'Immerse yourself in the heart of the Prosecco hills: medieval castles and sustainable vineyards in a UNESCO landscape.',
   },
   {
     'id': 6,
     'type': 'Rural Tourism',
-    'name': 'Agriturismo Sostenibile',
-    'missions': [6], // Farmhouse in Treviso
+    'name': 'Sustainable Agritourism',
+    'missions': [5], // Farmhouse in Treviso
     'image': {
       'url': 'assets/images/campaigns/agriturismo.png',
-      'captions': 'Turismo rurale sostenibile',
+      'captions': 'Sustainable rural tourism',
     },
     'description':
-        'Vivi l\'esperienza autentica dell\'agriturismo veneto: tradizioni locali, cucina a km zero e ospitalità sostenibile.',
+        'Experience the authentic Veneto agritourism experience: local traditions, zero-kilometer cuisine and sustainable hospitality.',
   },
 ];
