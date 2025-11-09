@@ -16,7 +16,7 @@ class Modal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 18.0),
-      height: MediaQuery.of(context).size.height * 0.40,
+      height: MediaQuery.of(context).size.height * 0.50,
       child: child);
   }
 }

@@ -18,9 +18,9 @@ final List<Map<String, dynamic>> missions = [
     ],
     'campaign': 1, // H-FARM Icons,
     'mission': {
-          'type': 'photo',
-          'description': 'Take a photo with the tractor.',
-    }
+      'type': 'photo',
+      'description': 'Take a photo with the tractor.',
+    },
   },
   {
     'id': 2,
@@ -115,7 +115,11 @@ final List<Map<String, dynamic>> missions = [
         'url': 'assets/images/missions/agriturismo-treviso.png',
       },
     ],
-    'campaign': 2, // Treviso Secrets
+    'campaign': 2,
+    'mission': {
+      'type': 'photo',
+      'description': 'Take a photo with the tractor.',
+    },
   },
   {
     'id': 6,

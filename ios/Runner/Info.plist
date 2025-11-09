@@ -3,8 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>La tua posizione serve per mostrarti sulla mappa.</string>
-
+	<string>We need your position to confim if the mission is passed successfully.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This allows you to update pictures from your Gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This let you take real time pictures</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
