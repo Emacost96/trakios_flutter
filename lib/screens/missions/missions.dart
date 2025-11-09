@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:trakios/assets/campaigns.dart';
 import 'package:trakios/assets/missions.dart';
 import 'package:trakios/theme/text_styles.dart';
+import 'package:trakios/widgets/modal/modal.dart';
+import 'package:trakios/widgets/modal/modals/mission_modal.dart';
 
 // Helper functions to connect campaigns with missions
 Map<String, dynamic>? getMissionById(int missionId) {
@@ -57,18 +59,18 @@ class Missions extends StatelessWidget {
             dividerColor: Colors.transparent,
             tabs: [
               Tab(
-                text: 'Missions',
+                text: 'Campaigns',
               ),
               Tab(
-                text: 'Campaigns',
+                text: 'Missions',
               ),
             ],
           ),
         ),
         body: const TabBarView(
           children: [
-            MissionsTab(),
             CampaignsTab(),
+            MissionsTab(),
           ],
         ),
       ),
@@ -478,11 +480,6 @@ class _CampaignsTabState extends State<CampaignsTab>
                                           }
                                           return _MissionRow(
                                             mission: mission,
-                                            onTap: (mission) {
-                                              setState(() {
-                                                _selectedMission = mission;
-                                              });
-                                            },
                                           );
                                         },
                                       ),
@@ -609,17 +606,29 @@ class _ArcPainter extends CustomPainter {
 /// Righe mission come prima, ma su sfondo chiaro
 class _MissionRow extends StatelessWidget {
   final Map<String, dynamic> mission;
-  final void Function(Map<String, dynamic> mission) onTap;
 
   const _MissionRow({
     required this.mission,
-    required this.onTap,
   });
+
+  void _openMissionModal(BuildContext context) {
+    Modal.showModal(
+      context,
+      MissionModal(
+        mission: mission,
+        context: context,
+        onPressed: () async {
+          // TODO: Implement mission start logic
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap(mission),
+      onTap: () => _openMissionModal(context),
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
